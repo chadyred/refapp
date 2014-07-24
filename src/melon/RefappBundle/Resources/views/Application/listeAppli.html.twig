@@ -1,0 +1,223 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+	
+		<div id='corps' class="corpsSite">
+		
+		<h2>Rechercher les applications répertoriées par le Conseil général de l'Isère</h2>
+		
+		<form class="formFilterAppli" method="post" {{ form_enctype(form) }}>
+  						{# Les erreurs g�n�rales du formulaire. #}
+  						{{ form_errors(form) }}											
+					<div class="blocfilter">
+						<div class="filterEntry">
+						<p>
+  							{{ form_errors(form.code) }}
+  							{{ form_widget(form.code) }} 
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un code" /></a></span></p>
+						<p>
+  							{{ form_errors(form.nom) }}
+  							{{ form_widget(form.nom) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un nom" /></a></span></p>	
+						</div>
+						<div class="filterSelect1">
+  							<p>
+  							{{ form_errors(form.direction) }}
+  							{{ form_widget(form.direction) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter une direction" /></a></span></p>
+  							<p>
+  							{{ form_errors(form.domaine) }}
+  							{{ form_widget(form.domaine) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un domaine" /></a></span></p>
+  							 <p>
+  							{{ form_errors(form.editeur) }}
+  							{{ form_widget(form.editeur) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un éditeur" /></a></span></p>
+  							<p>
+  							{{ form_errors(form.responsableDsi) }}
+  							{{ form_widget(form.responsableDsi) }} 
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un responsable" /></a></span></p> 						
+  						</div>
+  						<div class="filterSelect2">	
+  						<p>
+  							{{ form_errors(form.serviceAppliDsi) }}
+  							{{ form_widget(form.serviceAppliDsi) }} 
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un service applicatif" /></a></span></p>
+  						<p>
+  							{{ form_errors(form.technologie) }}
+  							{{ form_widget(form.technologie) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter une technologie" /></a></span></p>
+  						<p>
+  							{{ form_errors(form.competence) }}
+  							{{ form_widget(form.competence) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter une compétence" /></a></span></p>
+  						<p>
+  							{{ form_errors(form.os) }}
+  							{{ form_widget(form.os) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un os" /></a></span></p>
+  						</div>	
+  						<div class="filterSelect3">
+  							  							<p>
+  							{{ form_errors(form.serveurWeb) }}
+  							{{ form_widget(form.serveurWeb) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un serveur web" /></a></span></p>
+  							  							<p>
+  							{{ form_errors(form.sgbd) }}
+  							{{ form_widget(form.sgbd) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un sgbd" /></a></span></p>
+  							  							<p>
+  							{{ form_errors(form.logiciel) }}
+  							{{ form_widget(form.logiciel) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un logiciel" /></a></span></p>
+  							  							<p>
+  							{{ form_errors(form.langage) }}
+  							{{ form_widget(form.langage) }}  
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter un langage" /></a></span></p>
+  						</div>
+							{{ form_rest(form) }}
+						<div class="divbtnRechercher">
+							<input type="submit" class="btn-filter" value="Appliquer le filtre"/>
+							<input type="button" class="init" VALUE="Rétablir les valeurs par défaut" onClick="this.form.reset();">
+						</div>
+					
+				</div>{# fin blocfilter#}	
+					
+  			</form>
+			<div id="dt_liste">
+			<table  class="display" id="listeAppli">
+			{% if is_granted('ROLE_RESPONSABLE_SERVICE') %}
+		<div id="div-email">
+			<a href="{{ path('_rapportObsolescence')}}">Afficher les applications en fin de support</a>
+		</div>
+	{% endif %}
+    			<thead>
+        		<tr>
+            		<th>Code</th>
+            	</tr>
+    			</thead>
+   			 <tbody>
+   			{% set nbMois1=0 %}
+   			 	{% set nbMois2=0 %} 
+   			 	{% set nbMois3=0 %}  
+   			 {% for ob in obsolescence %} 
+   			 	{% set nbMois1=ob.getNbMois1() %}
+   			 	{% set nbMois2=ob.getNbMois2() %} 
+   			 	{% set nbMois3=ob.getNbMois3() %}  
+   			 {% endfor %}
+    			 {% for application in list_Application %}
+    			 {% if (application.EnFinDeVie()==0) %}
+    			  {% set comp = -1 %}	
+    			  {% set expire=0 %}
+    			 	{% set composants = application.getComposants() %}
+    			 		{% for composant in composants %}
+    			 			{% if composant.getObsolescence(nbMois1,nbMois2,nbMois3)== 0 %}
+    			 				{% set expire=1 %}{# l'application sera rouge automatiquement #}
+    			 			{% endif %}
+    			 			{% if comp <= composant.getObsolescence(nbMois1,nbMois2,nbMois3) and composant.getObsolescence(nbMois1,nbMois2,nbMois3)!= 9 %}
+    			 				{% set comp =composant.getObsolescence(nbMois1,nbMois2,nbMois3) %}
+    			 				
+    			 			{% endif %}
+    					 {% endfor %} 
+    			 {% if comp != -1 %} {# Si la date est renseignée #}
+    			
+    				 {% if expire == 1  %}
+    			  		<tr class="rouge">
+    			  	 {% else %}	  
+    			  	 {% if comp ==1 %}
+        				<tr class="jaune">	        				
+    			  	 {% elseif comp == 3 %}   
+    			  	 	<tr class="orange">	  
+    			  	 {% elseif comp == 6 %}
+        				<tr class="rouge">	
+        			{% elseif comp == 9 %}
+        				<tr >	
+        			{% endif %}   
+        			{% endif %}   
+        				
+        		{% else %}
+        			<tr>
+        		{% endif %}  	
+                			
+                			<td>  
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					<p style="display:none;">{{ application.getCode() }}</p><span>{{ application.getNom()~" "~ application.getVersion() }}</span>
+                				</a>	
+                				<div class="block_actions">
+                				{% if is_granted('ROLE_ADMIN') %}
+									<a class="liens" href="{{ path('_supprimerAppli', {'id': application.getId()}) }}">
+										<img src="{{ asset('bundles/melonrefapp/images/delete.png') }}" title="Supprimer l'application" alt="Supprimer l'application " />
+									</a>
+								{% endif %} 
+								{% set b=1 %}   
+								{% if is_granted('ROLE_RESPONSABLE_SERVICE') %}
+								    <a class="liens" href="{{ path('_modifierAppli', {'id': application.getId()}) }}">
+										<img  src="{{ asset('bundles/melonrefapp/images/modif.png') }}" title="Modifier l'application" alt="Modifier l'application" />
+									</a> 
+                				{% elseif is_granted('ROLE_RESPONSABLE_APPLICATION') %}
+                					{% for responsable in application.getResponsablesDsi() %}
+                					{% if (app.user.getUsername() == responsable.getUsername() and b==1) %}
+									<a class="liens" href="{{ path('_modifierAppli', {'id': application.getId()}) }}">
+										<img  src="{{ asset('bundles/melonrefapp/images/modif.png') }}" title="Modifier l'application" alt="Modifier l'application" />
+									</a>
+									{% set b=0 %} 
+									{% endif %}
+									{% endfor %}
+								{% endif %}
+							
+                				<a class="liens" href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					<img  src="{{ asset('bundles/melonrefapp/images/page.png') }}" title="Fiche de l'application" alt="Fiche de l'application" />
+                				</a>
+                				{% if  application.AppliComplete()==false %} {# si l'application n'est pas complete on affiche une alerte#}
+                				<a class="liens" href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					<img  src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Application incomplète" alt="Application incomplet" />
+                				</a>
+                				{% endif %}
+								  </div>				
+                			</td>
+        				</tr>
+     			{% endif %}
+    			 {%  endfor %}
+        	</tbody>
+			</table>
+			</div>
+	
+		
+	</div>	
+	{% endblock %}
+	
+{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#listeAppli').dataTable({
+
+								"aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Tous"]],
+							    "iDisplayLength": 50,
+							   // "sProcessing":   "Chargement...",
+							 	"sLengthMenu":   "Afficher _MENU_ applications",
+							 	"sZeroRecords":  "Aucune application trouvée",
+							 	"sInfo":         "Affiche _START_ à _END_ des _TOTAL_ applications",
+							 	"sInfoEmpty":    "Affiche 0 à 0 des 0 applications",
+							 	"sInfoFiltered": "(filtrer de _MAX_ total des applications)",
+							 	"sInfoPostFix":  "",
+							 	"sSearch":       "Rechercher :",
+							 	"sUrl":          "",
+							 	"oPaginate": {
+							 		"sFirst":    "Première",
+							 		"sPrevious": "Précédente",
+							 		"sNext":     "Prochaine",
+							 		"sLast":     "Dernière"
+							 	}
+					 	});
+						 
+					} );
+		</script>
+	{% endblock %}
+	

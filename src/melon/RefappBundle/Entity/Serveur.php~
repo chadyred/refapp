@@ -1,0 +1,203 @@
+<?php
+
+namespace melon\RefappBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Serveur
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="melon\RefappBundle\Entity\ServeurRepository")
+ */
+class Serveur
+{
+	
+  /**
+   * @ORM\ManyToMany(targetEntity="melon\RefappBundle\Entity\Environnement", mappedBy="serveurs", cascade={"persist", "remove"})
+   */
+  private $environnements;
+	
+	//Attributs//
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="ip", type="string", length=255, nullable=false)
+     */
+    private $ip;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="hostName", type="string", length=255, nullable=true)
+     */
+    private $hostName;
+
+   /**
+     * @ORM\Column(type="string", columnDefinition="ENUM('N/A', 'fichier', 'sgbd', 'applicatif', 'web')", nullable=true)
+     */
+    
+    private $typeServeur;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="dateCreation", type="datetime", nullable=true)
+     */
+    private $dateCreation;
+
+
+    //Getter et setter//
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Serveur
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+    
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set ip
+     *
+     * @param string $ip
+     * @return Serveur
+     */
+    public function setIp($ip)
+    {
+        $this->ip = $ip;
+    
+        return $this;
+    }
+
+    /**
+     * Get ip
+     *
+     * @return string 
+     */
+    public function getIp()
+    {
+        return $this->ip;
+    }
+
+    /**
+     * Set hostName
+     *
+     * @param string $hostName
+     * @return Serveur
+     */
+    public function setHostName($hostName)
+    {
+        $this->hostName = $hostName;
+    
+        return $this;
+    }
+
+    /**
+     * Get hostName
+     *
+     * @return string 
+     */
+    public function getHostName()
+    {
+        return $this->hostName;
+    }
+
+    /**
+     * Set typeServeur
+     *
+     * @param array $typeServeur
+     * @return Serveur
+     */
+    public function setTypeServeur($typeServeur)
+    {
+        $this->typeServeur = $typeServeur;
+    
+        return $this;
+    }
+
+    /**
+     * Get typeServeur
+     *
+     * @return array 
+     */
+    public function getTypeServeur()
+    {
+        return $this->typeServeur;
+    }
+
+    /**
+     * Set dateCreation
+     *
+     * @param \DateTime $dateCreation
+     * @return Serveur
+     */
+    public function setDateCreation($dateCreation)
+    {
+        $this->dateCreation = $dateCreation;
+    
+        return $this;
+    }
+
+    /**
+     * Get dateCreation
+     *
+     * @return \DateTime 
+     */
+    public function getDateCreation()
+    {
+        return $this->dateCreation;
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->environnenents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+  
+    
+
+}

@@ -1,0 +1,64 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+			<h2>Ajouter un Os</h2>
+				<form method="post" class="formAjoutObjet" {{ form_enctype(form) }}>
+  					<div class="contAjoutObjet">
+  						{# Les erreurs g�n�rales du formulaire. #}
+						{{ form_errors(form) }}
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.nom, "Nom* :") }}
+ 
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.nom) }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.nom) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.dateFin, "Date de fin :") }}
+ 
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.dateFin) }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.dateFin) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.version, "Version :") }}
+ 
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.version) }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.version) }}
+						</div>
+						
+						{{ form_rest(form) }}
+						
+						<h5>* : champ(s) obligatoire(s)</h5>
+					 
+    				  </div>
+					 <div class="bouton">	<input type="submit" class="btn-primary" value="Sauvegarder" id="boutonAjouterAdmin"/>
+  						<a href="{{ path('_administration') }}">
+						<input  type="submit" class="btn-primary" name="Annuler" value="Annuler"/>
+						</a></div>
+    				 
+  					</form>
+  					
+				
+		</div>
+			
+	{% endblock %}
+

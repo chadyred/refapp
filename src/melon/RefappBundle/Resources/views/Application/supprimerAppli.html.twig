@@ -1,0 +1,35 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+			<h2>Supprimer l'application {{ application.nom }}</h2>
+ 
+  			{# On met l'id de l'article dans la route de l'action du formulaire #}
+ 			<form class="formAjoutObjet" action="{{ path('_supprimerAppli', {'id': application.id}) }}" method="post">
+    			<div class="contAjoutObjet">
+    			<p>
+    			Etes-vous certain de vouloir supprimer l'application "{{ application.nom }}" ?
+ 				</p>
+    		
+    			</div>
+    			<div class="bouton">
+    				<a href="{{ path('_ficheAppli', {'id': application.id}) }}" class="btn-primary">
+      				{{ "Retour à l'application" }}
+      				
+    				</a>
+    				<input type="submit" value="Supprimer" class="btn-primary" />
+    			</div>
+    			
+    				{{ form_rest(form) }}
+  			</form>
+		</div>	
+	{% endblock %}
+
+

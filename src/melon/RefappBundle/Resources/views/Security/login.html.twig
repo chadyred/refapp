@@ -1,0 +1,51 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+{% block header %}  
+	<div class="banniere">
+		<h1>Référentiel d'applications - v.2.0</h1>
+	</div>
+	<div class="logo">
+		<img src="{{ asset('bundles/melonrefapp/images/logo.png') }}" alt="logo" />             
+	</div>
+	<div class="etatConnexion">
+		{{ "Non connecté" }}
+	</div>
+{% endblock %}
+			
+{% block menu_deroulant %}  
+{% endblock %}
+ 
+{% block login %}
+   		
+<div class="panneau">
+  	{# Le formulaire, avec URL de soumission vers la route � login_check � comme on l'a vu #}
+ 	 <form action="{{ path('login_check') }}" method="post">
+ 	 	<div class="colonneLabelSimpleLogin">
+           	<div class="champs">
+    			<label for="username">Identifiant :</label>
+    		</div>
+    		<div class="champs">	
+    			<label for="password">Mot de passe :</label>
+    		</div>
+    	</div>	
+    	<div class="colonneInputSimple">
+           	<div class="champs">    
+            	<input type="text" id="username" name="_username" value="{{ last_username }}" />
+ 		   	</div>
+ 		   
+           	<div class="champs">
+            	<input type="password" id="password" name="_password" />
+           	</div>
+           	{# S'il y a une erreur, on l'affiche dans un joli cadre #}
+  			{% if error %}
+    		<div class="alert alert-error">{{"Mot de passe incorrect pour ce matricule"}}</div>
+  			{% endif %}
+           	<div class="espaceBouton">
+    		<input type="submit" class="symfony-button-grey" value="Ok" />
+    	</div>
+        </div>
+   	 	
+ 	 </form>
+  </div>
+ 
+{% endblock %}

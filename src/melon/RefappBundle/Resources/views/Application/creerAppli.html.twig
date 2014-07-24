@@ -1,0 +1,325 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+	
+{% use 'form_div_layout.html.twig' with form_label as base_form_label %}
+
+{% block form_label %}
+    {{ block('base_form_label') }}
+
+    {% if required %}
+        <span class="required" title="Ce champ est obligatoire">*</span>
+    {% endif %}
+{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+		
+			<h2>Formulaire de création d'une application</h2>
+ 
+				<div class="formCreerAppli">
+  					<form method="post" {{ form_enctype(form) }}>
+  						{# Les erreurs g�n�rales du formulaire. #}
+  						{{ form_errors(form) }}
+					<div class="container1">
+					<h4><a onclick="hidden_show('InfoGeneral');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgInfoGeneral" alt="" />{{ " Informations générales : "}}</a></h4>
+					<div id="InfoGeneral" class="formInfo">
+					<div class="block-left">  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.code, "Code* : ") }}
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.code) }}
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.code) }}<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" />
+						
+  							{{ form_label(form.nom, "Nom* :") }}
+  							{{ form_errors(form.nom) }}
+  							{{ form_widget(form.nom) }}<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" />
+						
+  							{{ form_label(form.version, "Version :") }}
+  							{{ form_errors(form.version) }}
+  							{{ form_widget(form.version) }}
+						
+  							{{ form_label(form.periodeCritique, "Période critique :") }}
+  							{{ form_errors(form.periodeCritique) }}
+  							{{ form_widget(form.periodeCritique) }}
+						</div>
+						<div class="block-right">
+  							{{ form_label(form.dossierCNIL, "Dossier CNIL :") }}
+  							{{ form_errors(form.dossierCNIL) }}
+  							{{ form_widget(form.dossierCNIL) }}
+						
+  							{{ form_label(form.dateCreationDossierCNIL, "Date de création du dossier :") }}
+  							{{ form_errors(form.dateCreationDossierCNIL) }}
+  							{{ form_widget(form.dateCreationDossierCNIL) }}
+  						 					
+  							{{ form_label(form.dateMiseEnOeuvre, "Date de mise en oeuvre :") }}
+  							{{ form_errors(form.dateMiseEnOeuvre) }}
+  							{{ form_widget(form.dateMiseEnOeuvre) }}
+						
+  							{{ form_label(form.dateDerniereMiseAJour, "Date de la dernière mise a jour :") }}
+  							{{ form_errors(form.dateDerniereMiseAJour) }}
+  							{{ form_widget(form.dateDerniereMiseAJour) }}
+					
+  							{{ form_label(form.dateFinDeVie, "Expiration de l'application :") }}
+  							{{ form_errors(form.dateFinDeVie) }}
+  							{{ form_widget(form.dateFinDeVie) }}
+						</div>
+						
+						<div id="InfoGeneral1" class="formInfo2">
+						<div class="block-left">
+  							{{ form_label(form.objet, "Objet :") }}
+  							{{ form_errors(form.objet) }}
+  							{{ form_widget(form.objet) }}
+					
+  							{{ form_label(form.fonctionPrincipal, "Fonction principale :") }}
+  							{{ form_errors(form.fonctionPrincipal) }}
+  							{{ form_widget(form.fonctionPrincipal) }}<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" />
+						
+  							{{ form_label(form.famille, "Famille :") }}
+  							{{ form_errors(form.famille) }}
+  							{{ form_widget(form.famille) }}
+  							
+  							{{ form_label(form.nbUtilisateur, "Nombre d'utilisateurs :") }}
+  							{{ form_errors(form.nbUtilisateur) }}
+  							{{ form_widget(form.nbUtilisateur) }}
+						
+  							{{ form_label(form.administrateurFonctionnel, "Administrateur fonctionnel :") }}
+  							{{ form_errors(form.administrateurFonctionnel) }}
+  							{{ form_widget(form.administrateurFonctionnel) }}
+						</div>
+						<div class="block-right">
+  							{{ form_label(form.traitementDonnee, "Type de traitement de donnée :") }}
+  							{{ form_errors(form.traitementDonnee) }}
+  							{{ form_widget(form.traitementDonnee) }}
+					
+							{{ form_label(form.compatibilite, "Compatibilité :") }}
+  							{{ form_errors(form.compatibilite) }}
+  							{{ form_widget(form.compatibilite) }}<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" />
+						
+  							{{ form_label(form.donneeFederale, "Existance de donnée fédérale :") }}
+  							{{ form_errors(form.donneeFederale) }}
+  							{{ form_widget(form.donneeFederale) }}
+						
+  							{{ form_label(form.exterieurCG, "Accès avec des partenaires extérieurs du CG :") }}
+  							{{ form_errors(form.exterieurCG) }}
+  							{{ form_widget(form.exterieurCG) }}
+  							
+  							{{ form_label(form.commentaire, "Commentaire :") }}
+  							{{ form_errors(form.commentaire) }}
+  							{{ form_widget(form.commentaire) }}
+						</div>
+						</div>
+						</div> {# fin form info#}
+						</div>
+						<div class="validation"><h5>* : champ(s) obligatoire(s)</h5><a href="{{ path('_listeAppli') }}">
+						<input  type="submit" class="btn-primary" name="annuler" value="Annuler"/>
+						</a>
+						<input type="submit" class="btn-primary" name="sauvegarder" value="Sauvegarder"/>
+						
+    				 	<input type="submit" class="btn-primary" value="Sauvegarder et quitter"/></div>
+						
+						
+					<div class="container1">
+					<h4><a onclick="hidden_show('InfoEntites');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgInfoEntites" alt="" />{{ " Entités associées : "}}</a></h4>
+					<div id ="InfoEntites" class="formEntitesAssociees">
+					<div  class="block-left">	
+  							{{ form_label(form.domaine, "Domaine :") }}
+  							{{ form_errors(form.domaine) }}
+  							{{ form_widget(form.domaine) }}
+  							
+							{{ form_label(form.editeur, "Editeur :") }}
+  							{{ form_errors(form.editeur) }}
+  							{{ form_widget(form.editeur) }}	<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" />
+  							<a class="btn-primary" href="{{ path('_nouvelEditeur', {'id': 0} )}}" onclick="return confirmation();"  >Nouvel Editeur</a>
+  							
+  							{{ form_label(form.marche.nature, "Nature :") }}
+  							{{ form_errors(form.marche.nature) }}
+  							{{ form_widget(form.marche.nature) }}  
+						</div>
+						<div class="block-right">
+							<p>{{ "Marché"}}</p>
+							
+  							{{ form_label(form.marche.dateDebut, "Date début :") }}
+  							{{ form_errors(form.marche.dateDebut) }}
+  							{{ form_widget(form.marche.dateDebut) }}
+  							
+  							{{ form_label(form.marche.dateFin, "Date de fin :") }}
+  							{{ form_errors(form.marche.dateFin) }}
+  							{{ form_widget(form.marche.dateFin) }}
+						</div>	
+						</div>
+						</div>
+						<div class="container1">
+						<h4><a onclick="hidden_show('InfoDir');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgInfoDir" alt="" />{{ " Support DSI : "}}</a></h4>
+						<div id ="InfoDir" class="formObjets">
+						 <div class="block-left">	
+  							{{ form_label(form.directions, "Direction(s) :") }}
+  							{{ form_errors(form.directions) }}
+  							{{ form_widget(form.directions) }}<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" />
+  							
+  								<a href="#" class="InfoBulle" title="Appuyer sur Ctrl pour sélectionner plusieurs champs" >
+							<img src="{{ asset('bundles/melonrefapp/images/infobulle.png') }}" alt="Infobulle" />
+						</a>
+  							
+  							{{ form_label(form.responsablesDsi, "Responsable(s)* :") }}
+  							{{ form_errors(form.responsablesDsi) }}
+  							{{ form_widget(form.responsablesDsi) }}<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" />
+  							
+  								<a href="#" class="InfoBulle" title="Appuyer sur Ctrl pour sélectionner plusieurs champs" >
+							<img src="{{ asset('bundles/melonrefapp/images/infobulle.png') }}" alt="Infobulle" />
+						</a>
+  							
+  							</div>
+  						<div class="block-right">										
+  							{{ form_label(form.servicesAppliDsi, "Service(s) associé(s) :") }}
+  							{{ form_errors(form.servicesAppliDsi) }}
+  							{{ form_widget(form.servicesAppliDsi) }}<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" />
+  							
+  								<a href="#" class="InfoBulle" title="Appuyer sur Ctrl pour sélectionner plusieurs champs" >
+							<img src="{{ asset('bundles/melonrefapp/images/infobulle.png') }}" alt="Infobulle" />
+						</a>
+							<div style="display:none;">
+  							{{ form_label(form.competences, "Compétence(s) :") }}
+  							{{ form_errors(form.competences) }}
+  							{{ form_widget(form.competences) }}
+							</div>
+  						</div>
+  						</div>				
+					</div>
+					<div class="container1">
+					<h4><a onclick="hidden_show('Applications');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgApplications" alt="" />{{ " Application(s) et composant(s) associé(s) : "}}</a> <img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" /></h4>
+ 					<div id ="Applications" class ="formApplicationsAssoc"> 
+					<div id="tableficheAppli">			
+  							{{ form_label(form.applications, "Applications(s) associée(s) :") }}
+  							{{ form_errors(form.applications) }}
+  							{{ form_widget(form.applications) }}
+  							
+  						<a href="#" class="InfoBulle" title="Appuyer sur Ctrl pour sélectionner plusieurs champs" >
+							<img src="{{ asset('bundles/melonrefapp/images/infobulle.png') }}" alt="Infobulle" />
+						</a>
+  							
+  							{{ form_label(form.composants, "Composant(s) associé(s) :") }}
+  							{{ form_errors(form.composants) }}
+  							{{ form_widget(form.composants) }}
+  					
+						<a href="#" class="InfoBulle" title="Appuyer sur Ctrl pour sélectionner plusieurs champs" >
+							<img src="{{ asset('bundles/melonrefapp/images/infobulle.png') }}" alt="Infobulle" />
+						</a>
+  							{{ form_label(form.technologies, "Technologie(s) associée(s) :") }}
+  							{{ form_errors(form.technologies) }}
+  							{{ form_widget(form.technologies) }}
+  							
+  						<a href="#" class="InfoBulle" title="Appuyer sur Ctrl pour sélectionner plusieurs champs" >
+							<img src="{{ asset('bundles/melonrefapp/images/infobulle.png') }}" alt="Infobulle" />
+						</a>
+  							
+					</div>
+					</div>
+					</div>
+					<div class="container1">
+					<div class="formEnvEtDoc" >
+					<div class="formEnvironnement">
+						<h4><a onclick="hidden_show('formEnv');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgformEnv" alt="" /></a>{{ " Associer un environnement : "}}<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" /></h4>
+							<div id="formEnv" style="display:inline-block;">
+  							{{ form_label(form.environnements) }}
+  							{{ form_errors(form.environnements) }}
+  							{{ form_widget(form.environnements) }} 	
+  							</div>	
+					</div> 	
+					<div class="formDocumentation"> 
+						<h4><a onclick="hidden_show('formDoc');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgformDoc" alt="" /></a>{{ "Associer une documentation : "}}	<img class="warning" src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Champ néccessaire pour compléter l'application" alt="Champ néccessaire pour compléter l'application" /></h4> 						
+   							<div id="formDoc" style="display:inline-block;">
+  							{{ form_label(form.documentations) }}
+  							{{ form_errors(form.documentations) }}
+  							{{ form_widget(form.documentations) }}
+  							</div>
+  						</div>
+  					</div>
+  					</div>
+							{{ form_rest(form) }} 					
+  						<div class="validation"><h5>* : champ(s) obligatoire(s)</h5>
+  						<a href="{{ path('_listeAppli') }}">
+						<input type="submit" class="btn-primary" name="annuler" value="Annuler"/>
+						</a>
+						<input type="submit" class="btn-primary" name="sauvegarder" value="Sauvegarder"/>
+    				 	<input type="submit" class="btn-primary" value="Sauvegarder et quitter"/></div>
+  					</form>
+				</div>
+		</div>
+
+	
+		
+
+	{% endblock %}
+
+{% block javascript %}
+		{{ parent() }}
+			<script type="text/javascript" charset="utf-8">
+		$(function(){
+$(".InfoBulle").tipTip();
+});	
+			
+    imgout=new Image(9,9);
+    imgin=new Image(9,9);
+
+    /////////////////BEGIN USER EDITABLE///////////////////////////////
+    	imgout.src="{{ asset('bundles/melonrefapp/images/expand.gif') }}";
+    	imgin.src=src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}";
+    ///////////////END USER EDITABLE///////////////////////////////////
+
+    //this switches expand collapse icons
+    function filter(imagename,objectsrc){
+    	if (document.images){
+    		document.images[imagename].src=eval(objectsrc+".src");
+    	}
+    }
+
+    //show OR hide funtion depends on if element is shown or hidden
+    function hidden_show(id) { 
+    	
+    	if (document.getElementById) { // DOM3 = IE5, NS6
+    		if (document.getElementById(id).style.display == "none"){
+    			document.getElementById(id).style.display = 'inline-block';
+    			filter(("img"+id),'imgin');			
+    		} else {
+    			filter(("img"+id),'imgout');
+    			document.getElementById(id).style.display = 'none';			
+    		}	
+    	} else { 
+    		if (document.layers) {	
+    			if (document.id.display == "none"){
+    				document.id.display = 'inline-block';
+    				filter(("img"+id),'imgin');
+    			} else {
+    				filter(("img"+id),'imgout');	
+    				document.id.display = 'none';
+    			}
+    		} else {
+    			if (document.all.id.style.visibility == "none"){
+    				document.all.id.style.display = 'inline-block';
+    			} else {
+    				filter(("img"+id),'imgout');
+    				document.all.id.style.display = 'none';
+    			}
+    		}
+    	}
+    }
+
+    function confirmation() {
+
+    if (window.confirm('La sauvegarde n\'a pas été éffectuée, Vous allez être redirigé vers une autre page. Êtes-vous sur de vouloir continuer ?')) {
+        return true;
+     } else {
+        return false;
+     }
+    }   
+    
+</script>
+	{% endblock %}
+	

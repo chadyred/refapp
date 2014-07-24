@@ -1,0 +1,115 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+			<h2>Ajouter un Editeur</h2>
+				<form method="post" class="formAjoutObjet" {{ form_enctype(form) }}>
+  					<div class="contAjoutObjet">
+  						{# Les erreurs g�n�rales du formulaire. #}
+						{{ form_errors(form) }}
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.nom, "Nom* :") }}
+ 
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.nom) }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.nom) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.numtel, "Numero de téléphone :") }}
+ 
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.numtel) }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.numtel) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.numero, "N° :") }}
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.numero) }}
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.numero) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.rue, "Rue :") }}
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.rue) }}
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.rue) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.codepostal, "Code postal :") }}
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.codepostal) }}
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.codepostal) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.ville, "Ville :") }}
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.ville) }}
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.ville) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.mail, "E-mail :") }}
+ 
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.mail) }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.mail) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.responsableTechnique, "Responsable Technique :") }}
+ 
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.responsableTechnique) }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.responsableTechnique) }}
+						</div>
+						<div>  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.responsableApplication, "Responsable d'application :") }}
+ 
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							{{ form_errors(form.responsableApplication) }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.responsableApplication) }}
+						</div>
+						
+						{{ form_rest(form) }}
+						
+						<h5>* : champ(s) obligatoire(s)</h5>
+					 
+    			 </div>
+					 <div class="bouton">	<input type="submit" class="btn-primary" value="Sauvegarder" id="boutonAjouterAdmin"/>
+  						<a href="{{ path('_administration') }}">
+						<input  type="submit" class="btn-primary" name="Annuler" value="Annuler"/>
+						</a></div>
+    				 
+  					</form>
+	</div>
+
+			
+	{% endblock %}
+

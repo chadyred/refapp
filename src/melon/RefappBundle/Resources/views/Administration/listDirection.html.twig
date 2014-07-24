@@ -1,0 +1,68 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+		
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+	<div id='corps'>
+		<h2>Voici la liste de toute(s) les direction(s)</h2></br>
+			<div id="dt_example">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+    			<thead>
+        		<tr>
+            		<th>Nom</th>
+            		<th>Actions</th>
+        		</tr>
+    			</thead>
+   			 <tbody>
+    			 {% for direction in list_Direction %}
+                		<tr>	        			
+                			<td>	
+                				
+                					{{ direction.getNom() }}
+                				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a id="lienEditer" href="{{ path('_modifierDirection', {'id': direction.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a id="lienSupprimer" href="{{ path('_supprimerDirection', {'id': direction.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>              				              				           			
+                			</td>                			
+        				</tr>
+
+     			{% endfor %}       			
+        	</tbody>
+			</table>
+		</div>
+		<a href="{{ path('_administration') }}">
+			<input  type="submit" class="btn-primary" name="Retour" value="Retour"/>
+		</a>		
+		<a href="{{ path('_ajoutDirection') }}">
+			<input  type="submit" class="btn-primary" name="Ajouter "value="Ajouter une direction"/>
+		</a>
+
+		
+	</div>	
+	{% endblock %}
+		
+	{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#example').dataTable();
+					} );
+		</script>	
+	{% endblock %}
+

@@ -1,0 +1,44 @@
+<?php
+
+namespace melon\RefappBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Logiciel
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="melon\RefappBundle\Entity\LogicielRepository")
+ */
+class Logiciel extends Composant
+{
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="typeLogiciel", type="string", length=255)
+     */
+    private $typeLogiciel;
+
+    /**
+     * Set typeLogiciel
+     *
+     * @param string $typeLogiciel
+     * @return Logiciel
+     */
+    public function setTypeLogiciel($typeLogiciel)
+    {
+        $this->typeLogiciel = $typeLogiciel;
+    
+        return $this;
+    }
+
+    /**
+     * Get typeLogiciel
+     *
+     * @return string 
+     */
+    public function getTypeLogiciel()
+    {
+        return $this->typeLogiciel;
+    }
+}

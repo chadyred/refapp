@@ -1,0 +1,27 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+			<p>
+    			Etes-vous certain de vouloir supprimer le serveur "{{ serveur.nom }}" ?
+ 			</p>
+ 
+  			{# On met l'id de l'article dans la route de l'action du formulaire #}
+ 			<form action="{{ path('_supprimerServeur', {'id': serveur.id}) }}" method="post">
+    			<a href="{{ path('_ficheServeur', {'id': serveur.id}) }}" class="btn">
+      				<i class="icon-chevron-left"></i>
+      					Retour au serveur
+    			</a>
+    			<input type="submit" value="Supprimer" class="btn btn-danger" />
+    				{{ form_rest(form) }}
+  			</form>
+		</div>	
+	{% endblock %}
+

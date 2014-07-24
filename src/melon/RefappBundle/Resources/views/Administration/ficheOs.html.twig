@@ -1,0 +1,30 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+			<h2>Fiche os {{ os.getNomComplet }}</h2>
+			<div class="formAjoutObjet">
+				<div class="contAjoutObjet">
+				<p>{{"Nom :"}} {{ os.getNom }}</p>
+				<p>{{"Date de fin :"}} {{ os.getDateFin|date('d/m/Y') }}</p>
+				<p>{{"Version :"}} {{ os.getVersion }}</p>
+			</div>
+						<div class="bouton">
+			
+			<a href="{{ path('_administration') }}">
+				<input  type="submit" class="btn-primary" name="retour" value="Retour à la liste"/>
+			</a>		
+			<a href="{{ path('_modifierOs', {'id': os.id}) }}">
+				<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+			</a>
+			</div>
+			</div>
+		</div>	
+	{% endblock %}

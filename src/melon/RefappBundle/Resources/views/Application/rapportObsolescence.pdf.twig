@@ -1,0 +1,67 @@
+	 <pdf>
+    <dynamic-page>
+    
+		{% block contenu %}
+	 <div id='corps'>
+
+		<h2 style="text-align:center;width:100%;margin: 0 0 0 0;padding-bottom:10px;padding-top:10px;color: #787878;background-color:#E0E0E0;">Rapport des composants d'application obsolètes </h2>
+		
+			<div id="dt_example">
+			
+			<table  class="pdf" id="rapportpdf" style="text-align:center;padding:10px;">
+    			
+        		<tr style="background-color:#E0E0E0;padding:5px;">
+            		<td style="padding:5px;">Application</td>
+            		<td>Composant</td>
+            		<td>Version</td>
+            		<td>Date d'expiration</td>
+        		</tr>
+    	 	
+   			 	{% set nbMois1=0 %}
+   			 	{% set nbMois2=0 %} 
+   			 	{% set nbMois3=0 %}  
+   			 {% for ob in obsolescence %} 
+   			 	{% set nbMois1=ob.getNbMois1() %}
+   			 	{% set nbMois2=ob.getNbMois2() %} 
+   			 	{% set nbMois3=ob.getNbMois3() %}  
+   			 {% endfor %}
+   				 {% for application in list_Application %}
+    			 	{% set comp = -1 %}		 	
+    			 	{% set composants = application.getComposants() %}
+    			 		{% for composant in composants %}
+    			 		{% set comp = -1 %}
+    			 			{% if comp <= composant.getObsolescence(nbMois1,nbMois2,nbMois3) %}
+    			 				{% set comp =composant.getObsolescence(nbMois1,nbMois2,nbMois3) %}
+    			 				{% if (comp != -1)  and (comp !=9) %} {# Si la date est renseignée #}
+    									
+    			  					{% if comp == 1 %}
+    			  						<tr class="jaune" style="background-color:yellow;padding:5px;">	
+    			  					{% elseif comp == 3 %}   
+    			  	 					<tr class="orange" style="background-color:orange;padding:5px;">
+    			  	 				{% elseif comp == 6 %}
+        								<tr class="rouge" style="background-color:red;padding:5px;">	
+        							{% elseif comp == 0  %}
+    			  						<tr class="rouge" style="background-color:red;padding:5px;">	
+    			  					{% else %}
+    			  						<tr>
+    			  					{% endif %} 
+    			  						<td style="padding:5px;">{{ application.getNom() }} </td>
+                						<td>{{ composant.getNom() }}</td>
+                						<td>{{ composant.getVersion()}}</td>
+        								<td>{{ composant.getDateFin()|date('d-m-Y')}}</td>
+        								</tr>  
+
+        			 			{% endif %}  	               						
+    			 			{% endif %}
+    					 {% endfor %} 
+    			 {% endfor %}
+    			 
+       
+        
+			</table>
+			</div>
+</div>
+		
+	{% endblock %}
+  			    </dynamic-page>
+</pdf>    

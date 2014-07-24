@@ -1,0 +1,86 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+		
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+	<div id='corps'>
+		<h2>Voici la liste de tout les Responsable Dsi</h2></br>
+			<div id="dt_example">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+    			<thead>
+        		<tr>
+            		<th>nom</th>
+            		<th>prenom</th>
+            		<th>matricule</th>
+            		<th>numero de tel</th>
+            		<th>service</th>
+            		<th>Actions</th>
+        		</tr>
+    			</thead>
+   			 <tbody>
+    			 {% for responsableDsi in list_ResponsableDsi %}
+                		<tr>	        			
+                			<td>	
+                				
+                					{{ responsableDsi.getNom() }}
+                				              				           			
+                			</td>
+                			<td>   
+                				          				
+                					{{ responsableDsi.getPrenom() }}
+                					               				
+                			</td>
+                			<td>  
+                				          			
+                					{{ responsableDsi.getMatricule }}   
+                					             			
+                			</td>
+                			<td>  
+                				          			
+                					{{ responsableDsi.getNumTel }}   
+                					             			
+                			</td>
+                			<td>  
+                				          			
+                					{{ responsableDsi.serviceAppliDsi.getNom }}   
+                					             			
+                			</td>
+                			<td>	          
+                				<a id="lienEditer" href="{{ path('_modifierResponsableDsi', {'id': responsableDsi.id}) }}">
+                					{{ "Editer" }}
+                				</a>
+                				<a id="lienSupprimer" href="{{ path('_supprimerResponsableDsi', {'id': responsableDsi.id}) }}">
+                					{{ "Supprimer" }}
+                				</a>              				              				           			
+                			</td>  
+        				</tr>
+
+     			{% endfor %}       			
+        	</tbody>
+			</table>
+		</div>
+		<a href="{{ path('_administration') }}">
+			<input  type="submit" class="btn-primary" name="supprimer" value="Retour"/>
+		</a>		
+		<a href="{{ path('_ajoutResponsableDsi') }}">
+			<input  type="submit" class="btn-primary" name="modifier "value="Ajouter un responsable"/>
+		</a>
+
+		
+	</div>	
+	{% endblock %}
+	
+	{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#example').dataTable();
+					} );
+		</script>	
+	{% endblock %}
+

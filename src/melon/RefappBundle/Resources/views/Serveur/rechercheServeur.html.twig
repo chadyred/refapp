@@ -1,0 +1,181 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+	
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+	<div id='corps'>
+		<h2>Rechercher un serveur</h2>
+		<form class="formFilterAppli" method="post" {{ form_enctype(form) }}>
+  						{# Les erreurs g�n�rales du formulaire. #}
+  						{{ form_errors(form) }}											
+					<div class="blocfilter" id="BlockServ">
+						<div class="filterGeneral">
+  							<p>
+  							{{ form_errors(form.nom) }}
+  							{{ form_widget(form.nom) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter" /></a></span></p>
+							<p>
+  							{{ form_errors(form.ip) }}
+  							{{ form_widget(form.ip) }} 
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter" /></a></span></p>
+  							<p>
+  							{{ form_errors(form.hostname) }}
+  							{{ form_widget(form.hostname) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter" /></a></span></p>
+  										
+  						</div>
+  						<div class="filterGeneral2">	
+  						<p>
+  							{{ form_errors(form.typeServeur) }}
+  							{{ form_widget(form.typeServeur) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter" /></a></span></p>	
+  						<p>
+  							{{ form_errors(form.environnement) }}
+  							{{ form_widget(form.environnement) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter" /></a></span></p>
+  						</div>
+  						<div class="filterComposant">
+  							<p>
+  							{{ form_errors(form.serveurWeb) }}
+  							{{ form_widget(form.serveurWeb) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter" /></a></span></p>
+  							<p>
+  							{{ form_errors(form.os) }}
+  							{{ form_widget(form.os) }}
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter" /></a></span></p>
+  							<p>
+  							{{ form_errors(form.langage) }}
+  							{{ form_widget(form.langage) }}  
+							<span> <a id="plus5" href=""><img src="{{ asset('bundles/melonrefapp/images/plus.png') }}" alt="Ajouter" /></a></span></p>
+  						</div>
+							{{ form_rest(form) }}
+						<div class="divbtnRechercher">
+							<input type="submit" class="btn-filter" value="Filtrer"/>
+							<INPUT TYPE="button" VALUE="Rétablir les valeurs par défaut" onClick="this.form.reset();">
+						</div>
+					
+				</div>{# fin blocfilter#}	
+					
+  			</form>
+  		<div class="formListeServeur">		
+		<div class="container1">
+			<h4><a href="#listeServeurs" onclick="hidden_show('listeServeurs');">{{ "Liste des serveurs : "}}</a></h4>
+ 			<div id ="listeServeurs" class="listeServeurs"> 
+ 			<div id="tablelisteServeur">
+			<table  class="display" id="listeServ">
+			<thead>
+        		<tr>
+            		<th>Nom</th>
+            	</tr>
+    			</thead>
+   			 <tbody>
+   			{% set nbMois1=0 %}
+   			{% set nbMois2=0 %} 
+   			{% set nbMois3=0 %}  
+   			{% for ob in obsolescence %} 
+   				{% set nbMois1=ob.getNbMois1() %}
+   			 	{% set nbMois2=ob.getNbMois2() %} 
+   			 	{% set nbMois3=ob.getNbMois3() %}  
+   			{% endfor %}
+    					 
+   				 {% for serveur in list_Serveur %}
+   				 	{% set env = -1 %}
+   				 	{% for environnement in serveur.environnements %}	
+   				  		{% set comp = -1 %}	 		 	
+    			 		{% set composants = environnement.getComposants() %}
+    			 		{% for composant in composants %}
+    			 			{% if comp <= composant.getObsolescence(nbMois1,nbMois2,nbMois3) and composant.getObsolescence(nbMois1,nbMois2,nbMois3)!= 9  %}
+    			 				{% set comp =composant.getObsolescence(nbMois1,nbMois2,nbMois3) %}
+    			 			{% endif %}
+    					{% endfor %} 
+    					{% if comp >= env %}
+    						{% set env=comp %}
+    					{% endif %}
+    				{% endfor %} 
+    			 	{% if env != -1 %} {# Si la date est renseignée #}
+    					{% if env == 9  %}
+    			  			<tr>	  
+    			  	 	{% elseif env == 6 %}
+        					<tr class="jaune">	        				
+    			  		 {% elseif env == 3 %}   
+    			  		 	<tr class="orange">	  
+    			  	 	{% elseif env == 1 %}
+        					<tr class="rouge">	
+        				{% elseif env == 0 %}
+        					<tr class="rouge">	
+        				{% endif %}   	
+        			{% else %}
+        				<tr>
+        			{% endif %}  	
+    			 	<td>
+    			 	<a href="{{ path('_ficheServeur', { 'id': serveur.getId() }) }}">
+                					{{ serveur.getNom() }}
+                	</a>	
+                	<a href="{{ path('_ficheServeur', { 'id': serveur.getId() }) }}">            				
+                					{{ serveur.getIp() }}
+                	</a>
+                	<a href="{{ path('_ficheServeur', { 'id': serveur.getId() }) }}">            			
+                					{{ serveur.getHostName() }}   
+                	</a>	                   
+    			 {% for environnement in serveur.environnements %}		 
+    			 	<p><span>{{ environnement.nomInstance }}</span><p>
+      			 {% endfor %}
+      				</td>
+				</tr>
+    			 {% endfor %}	
+        	</tbody>
+			</table>
+			</div>
+		</div>		
+		</div>
+		</div>
+	</div>	
+	{% endblock %}
+	
+	{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					
+					$(document).ready(function() {
+						$('#listeServ').dataTable({
+
+								"aLengthMenu": [[30, 60, 90, -1], [30, 60, 90, "Tous"]],
+							    "iDisplayLength": 30,
+							 	"sLengthMenu":   "Afficher _MENU_ applications",
+							 	"sZeroRecords":  "Aucune application trouvée",
+							 	"sInfo":         "Affiche _START_ à _END_ des _TOTAL_ applications",
+							 	"sInfoEmpty":    "Affiche 0 à 0 des 0 applications",
+							 	"sInfoFiltered": "(filtrer de _MAX_ total des applications)",
+							 	"sInfoPostFix":  "",
+							 	"sSearch":       "Rechercher :",
+							 	"sUrl":          "",
+							 	"oPaginate": {
+							 		"sFirst":    "Première",
+							 		"sPrevious": "Précédente",
+							 		"sNext":     "Prochaine",
+							 		"sLast":     "Dernière"
+							 	}
+					 	});
+						 
+					} );
+
+					   function hidden_show(id) {
+					       var e = document.getElementById(id);
+					       if(e.style.display == 'inline-block'){
+					      	 e.setAttribute("style","display:none;");
+					       }
+					       else{
+					    	
+								e.setAttribute("style","display:inline-block;");
+						   		
+					       }
+					      }
+		</script>
+		
+	{% endblock %}
+	

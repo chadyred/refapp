@@ -1,0 +1,53 @@
+jms_security_extra:
+    secure_all_services: false
+    expressions: true
+
+security:
+    encoders:
+        Symfony\Component\Security\Core\User\User: plaintext
+        melon\RefappBundle\Entity\ResponsableDsi: plaintext
+
+    role_hierarchy:
+       ROLE_UTILISATEUR: ROLE_USER
+       ROLE_RESPONSABLE_APPLICATION:  ROLE_UTILISATEUR
+       ROLE_RESPONSABLE_EXPLOITATION: ROLE_UTILISATEUR
+       ROLE_RESPONSABLE_SERVICE:  ROLE_RESPONSABLE_APPLICATION
+       ROLE_ADMIN:       [ROLE_RESPONSABLE_SERVICE,ROLE_RESPONSABLE_EXPLOITATION]
+       ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        
+    providers:
+        chain_provider:
+          chain:
+            providers: [in_memory, main]
+        main:
+            entity: { class: melon\RefappBundle\Entity\ResponsableDsi, property: username }
+        in_memory:
+            memory:
+                users:
+                    admin: { password: adminpass, roles: [ 'ROLE_SUPER_ADMIN' ] }
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        main:
+             pattern:   ^/
+             anonymous: true
+             provider:  chain_provider
+             form_login:
+                login_path: login
+                check_path: login_check
+                default_target_path: /refapp/index
+                always_use_default_target_path: true 
+             logout:
+                path:   logout
+                target: /login            
+
+    access_control:
+       - { path: ^/administration, roles: ROLE_ADMIN }
+        #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+        #
+        # You must uncomment the two following rules to restrict access to paths
+        # starting with the /_internal prefix to only localhost
+        #- { path: ^/_internal/secure, roles: IS_AUTHENTICATED_ANONYMOUSLY, ip: 127.0.0.1 }
+        #- { path: ^/_internal/secure, roles: ROLE_NO_ACCESS }

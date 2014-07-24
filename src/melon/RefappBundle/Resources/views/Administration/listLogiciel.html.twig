@@ -1,0 +1,74 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+		
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+	<div id='corps'>
+		<h2>Voici la liste de tout les Logiciel(s)</h2></br>
+			<div id="dt_example">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+    			<thead>
+        		<tr>
+            		<th>nom</th>
+            		<th>version</th>
+            		<th>Date de Fin</th>
+            		<th>Actions</th>
+        		</tr>
+    			</thead>
+   			 <tbody>
+    			 {% for composant in list_Logiciel %}
+                		<tr>	        			
+                			<td>	
+                				
+                					{{ composant.getNom() }}
+                				              				           			
+                			</td>
+                			<td>   
+                				          				
+                					{{ composant.getVersion() }}
+                					               				
+                			</td>
+                			<td>  
+                				          			
+                					{{ composant.getDateFin()|date('d/m/Y') }}   
+                					             			
+                			</td>
+                			<td>	          
+                				<a id="lienEditer" href="{{ path('_modifierLogiciel', {'id': composant.id}) }}">
+                					{{ "Editer" }}
+                				</a>
+                				<a id="lienSupprimer" href="{{ path('_supprimerLogiciel', {'id': composant.id}) }}">
+                					{{ "Supprimer" }}
+                				</a>               				              				           			
+                			</td>  
+        				</tr>
+
+     			{% endfor %}       			
+        	</tbody>
+			</table>
+		</div>
+		<a href="{{ path('_administration') }}">
+			<input  type="submit" class="btn-primary" name="supprimer" value="Retour"/>
+		</a>	
+		<a href="{{ path('_ajoutLogiciel') }}">
+			<input  type="submit" class="btn-primary" name="modifier "value="Ajouter un logiciel"/>
+		</a>
+
+		
+	</div>	
+	{% endblock %}
+	
+	{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#example').dataTable();
+					} );
+		</script>	
+	{% endblock %}
+

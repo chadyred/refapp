@@ -1,0 +1,143 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+{% block menu_deroulant %}
+		{{ parent() }}
+{% endblock %}
+
+{% block login %}
+{% endblock %}
+
+{% block contenu %}
+	<div id='corps' >
+		<h2>Mes Favoris </h2>
+		<div class="container1">
+			<h4><a onclick="hidden_show('historique');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imghistorique" alt="" />{{ " Historique : "}}</a></h4>
+				<div id="historique" class="formhistorique">
+					<div id="tableHistorique">		
+						<table class="display" id="liste_favoris_date">
+							<thead>
+        						<tr>
+            						<th>Nom</th><th>Résultat</th><th>Nombre de Consultation</th><th>Date de création</th>
+            					</tr>
+    						</thead>
+      	   					<tbody>
+      	   					{% for favoris in list_favoris_order_by_date %}
+        						<tr>
+        							<td>
+        								{% if favoris.getNom() == NULL %}
+        									{% if favoris.getParametre == NULL %}
+      											<a href="{{ path(favoris.chemin, { 'id': favoris.getParametre() }) }}">            				
+                								<span>{{ favoris.getChemin()}}</span>
+                								</a>	
+                							{% else %}
+                								<a href="{{ path(favoris.chemin) }}">            				
+                								<span>{{ favoris.getChemin()}}</span>
+                							{% endif %}
+        								{% else %}
+        									{% if favoris.getParametre == NULL %}
+      											<a href="{{ path(favoris.chemin) }}">            				
+                								<span>{{ favoris.getNom()}}</span>
+                								</a>	
+                							{% else %}
+                								<a href="{{ path(favoris.chemin, { 'id': favoris.getParametre() }) }}">            				
+                								<span>{{ favoris.getNom()}}</span>
+                							{% endif %}
+                						{% endif %}
+                						</a>
+      								</td>
+      								<td> {{ favoris.getResultat() }}</td>
+      								<td> {{ favoris.getNbConsultation() }}
+      								
+      							</tr>
+      							{% endfor %}
+      						</tbody>
+      					</table>
+					</div>
+				</div>
+		</div>	
+		<div class="container1">
+			<h4><a onclick="hidden_show('visite');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgvisite" alt="" />{{ " Les plus consultées : "}}</a></h4>
+				<div id="visite" class="formvisite">
+					<div id="tableVisite">		
+		
+					</div>
+				</div>
+		</div>			
+	</div>
+{% endblock %}
+
+{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#liste_favoris_date').dataTable({
+
+								"aLengthMenu": [[25, 50, 100, -1], [25, 50, 100, "Tous"]],
+							    "iDisplayLength": 50,
+							   // "sProcessing":   "Chargement...",
+							 	"sLengthMenu":   "Afficher _MENU_ applications",
+							 	"sZeroRecords":  "Aucune application trouvée",
+							 	"sInfo":         "Affiche _START_ à _END_ des _TOTAL_ applications",
+							 	"sInfoEmpty":    "Affiche 0 à 0 des 0 applications",
+							 	"sInfoFiltered": "(filtrer de _MAX_ total des applications)",
+							 	"sInfoPostFix":  "",
+							 	"sSearch":       "Rechercher :",
+							 	"sUrl":          "",
+							 	"oPaginate": {
+							 		"sFirst":    "Première",
+							 		"sPrevious": "Précédente",
+							 		"sNext":     "Prochaine",
+							 		"sLast":     "Dernière"
+							 	}
+					 	});
+						 
+					} );
+
+					imgout=new Image(9,9);
+				    imgin=new Image(9,9);
+
+				    /////////////////BEGIN USER EDITABLE///////////////////////////////
+				    	imgout.src="{{ asset('bundles/melonrefapp/images/expand.gif') }}";
+				    	imgin.src=src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}";
+				    ///////////////END USER EDITABLE///////////////////////////////////
+
+				    //this switches expand collapse icons
+				    function filter(imagename,objectsrc){
+				    	if (document.images){
+				    		document.images[imagename].src=eval(objectsrc+".src");
+				    	}
+				    }
+
+				    //show OR hide funtion depends on if element is shown or hidden
+				    function hidden_show(id) { 
+				    	
+				    	if (document.getElementById) { // DOM3 = IE5, NS6
+				    		if (document.getElementById(id).style.display == "none"){
+				    			document.getElementById(id).style.display = 'inline-block';
+				    			filter(("img"+id),'imgin');			
+				    		} else {
+				    			filter(("img"+id),'imgout');
+				    			document.getElementById(id).style.display = 'none';			
+				    		}	
+				    	} else { 
+				    		if (document.layers) {	
+				    			if (document.id.display == "none"){
+				    				document.id.display = 'inline-block';
+				    				filter(("img"+id),'imgin');
+				    			} else {
+				    				filter(("img"+id),'imgout');	
+				    				document.id.display = 'none';
+				    			}
+				    		} else {
+				    			if (document.all.id.style.visibility == "none"){
+				    				document.all.id.style.display = 'inline-block';
+				    			} else {
+				    				filter(("img"+id),'imgout');
+				    				document.all.id.style.display = 'none';
+				    			}
+				    		}
+				    	}
+				    }
+					
+		</script>
+	{% endblock %}

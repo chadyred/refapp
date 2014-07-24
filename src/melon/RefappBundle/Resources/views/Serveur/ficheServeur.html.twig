@@ -1,0 +1,339 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+	
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps' class="corpsSite">
+		<h2>Fiche synthèse du serveur {{ '"' ~ serveur.getNom ~ '"' ~ ' (serveur crée le ' ~  serveur.getDateCreation|date('d/m/Y') ~ ' )' }} </h2>
+		<div class="formServeurInfo">
+		<div class="container1">
+				<h4><a onclick="hidden_show('InfoGeneral');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgInfoGeneral" alt="" />{{ " Informations associées : "}}</a></h4>
+ 				<div id ="InfoGeneral" class="InfoGeneral"> 
+				<div class="block-left">
+					<p class="attribut" ><span>{{"Nom : "}}</span>{{ serveur.getNom() }}</p>
+					{% if serveur.ip == NULL %}
+						<p class="attribut" ><span>{{"Ip : "}} </span> {{"N/A"}}</p>
+					{% else %}
+						<p class="attribut" ><span>{{"Ip : "}}  </span>{{ serveur.getIp() }}</p>
+					{% endif %}
+				
+					{% if serveur.hostName == NULL %}
+						<p class="attribut" ><span>{{"HostName : "}} </span> {{"N/A"}}</p>
+					{% else %}
+						<p class="attribut" ><span>{{"HostName : "}}  </span>{{ serveur.getHostName() }}</p>
+					{% endif %}
+				
+					{% if serveur.typeServeur == NULL %}
+						<p class="attribut" ><span>{{"Type de serveur : "}} </span> {{"N/A"}} </p>
+					{% else %}
+						<p class="attribut" ><span>{{"Type de serveur : "}} </span> {{ serveur.getTypeServeur() }}</p>
+					{% endif %}
+				
+					{% if serveur.dateCreation == NULL %}
+						<p class="attribut" ><span>{{"Date de création :" }} </span> {{"N/A"}}</p>
+					{% else %}
+						<p class="attribut" ><span>{{"Date de création : "}} </span> {{ serveur.getDateCreation()|date('d/m/Y') }}</p>
+					{% endif %}
+					{% if serveur.emplacement == NULL %}
+						<p class="attribut" ><span>{{"Emplacement :" }} </span> {{"N/A"}}</p>
+					{% else %}
+						<p class="attribut" ><span>{{"Emplacement : "}} </span> {{ serveur.getEmplacement() }}</p>
+					{% endif %}
+				</div>	
+ 			<div class="validation">
+ 			{% if is_granted('ROLE_RESPONSABLE_EXPLOITATION') %}	
+ 				<a href="{{ path('_modifierServeur', {'id': serveur.id}) }}">
+					<input  type="submit" class="btn btn-primary" name="modifier "value="Modifier"/>
+				</a>
+			{% endif %}
+			
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('_supprimerServeur', {'id': serveur.id}) }}">
+					<input  type="submit" class="btn btn-primary" name="supprimer" value="Supprimer"/>
+				</a>
+			{% endif %}
+			</div>
+			</div>
+			</div>
+			
+			<div class="container1">
+			<h4><a onclick="hidden_show('AppAssoc');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgAppAssoc" alt="" />{{ " Application(s) associée(s) : "}}</a></h4>
+ 			<div id ="AppAssoc" class="AppAssoc"> 
+ 			<div id="dt_liste">
+			<table  class="display" id="listeAppli">
+			<thead>
+        		<tr>
+            		<th>Code</th>
+            	</tr>
+    			</thead>
+   			 <tbody>
+   			{% set nbMois1=0 %}
+   			 	{% set nbMois2=0 %} 
+   			 	{% set nbMois3=0 %}  
+   			 {% for ob in obsolescence %} 
+   			 	{% set nbMois1=ob.getNbMois1() %}
+   			 	{% set nbMois2=ob.getNbMois2() %} 
+   			 	{% set nbMois3=ob.getNbMois3() %}  
+   			 {% endfor %}
+    			 {% for application in list_appli_serveur %}
+    			 {% if (application.EnFinDeVie()==0) %}
+    			  {% set comp = -1 %}		 	
+    			 	{% set composants = application.getComposants() %}
+    			 		{% for composant in composants %}
+    			 			{% if comp <= composant.getObsolescence(nbMois1,nbMois2,nbMois3) and composant.getObsolescence(nbMois1,nbMois2,nbMois3)!= 9 %}
+    			 				{% set comp =composant.getObsolescence(nbMois1,nbMois2,nbMois3) %}
+    			 				{#<p> {{ comp }} </p>#}
+    			 			{% endif %}
+    					 {% endfor %} 
+    			 {% if comp != -1 %} {# Si la date est renseignée #}
+    				 {% if comp == 9  %}
+    			  		<tr>	  
+    			  	 {% elseif comp == 1 %}
+        				<tr class="jaune">	        				
+    			  	 {% elseif comp == 3 %}   
+    			  	 	<tr class="orange">	  
+    			  	 {% elseif comp == 6 %}
+        				<tr class="rouge">	
+        			{% elseif comp == 0 %}
+        				<tr class="rouge">	
+        			{% endif %}   	
+        		{% else %}
+        			<tr>
+        		{% endif %}  	
+                			
+                			<td>  
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					<span>{{ application.getNom()~" "~ application.getVersion() }}</span>
+                				</a>	
+                				<div class="block_actions">
+                				{% if is_granted('ROLE_ADMIN') %}
+									<a class="liens" href="{{ path('_supprimerAppli', {'id': application.getId()}) }}">
+										<img src="{{ asset('bundles/melonrefapp/images/delete.png') }}" title="Supprimer l'application" alt="supprimer" />
+									</a>
+								{% endif %} 
+								{% set b=1 %}   
+								{% if is_granted('ROLE_ADMIN') %}
+								    <a class="liens" href="{{ path('_modifierAppli', {'id': application.getId()}) }}">
+										<img  src="{{ asset('bundles/melonrefapp/images/modif.png') }}" title="Modifier l'application" alt="modifier" />
+									</a> 
+                				{% elseif is_granted('ROLE_RESPONSABLE_APPLICATION') %}
+                					{% for responsable in application.getResponsablesDsi() %}
+                					{% if (app.user.getUsername() == responsable.getUsername() and b==1) %}
+									<a class="liens" href="{{ path('_modifierAppli', {'id': application.getId()}) }}">
+										<img  src="{{ asset('bundles/melonrefapp/images/modif.png') }}" title="Modifier l'application" alt="modifier" />
+									</a>
+									{% set b=0 %} 
+									{% endif %}
+									{% endfor %}
+								{% endif %}
+							
+                				<a class="liens" href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					<img  src="{{ asset('bundles/melonrefapp/images/page.png') }}" title="Fiche de l'application" alt="fiche" />
+                				</a>
+                				{% if  application.AppliComplete()==false %} {# si l'application n'est pas complete on affiche une alerte#}
+                				<a class="liens" href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					<img  src="{{ asset('bundles/melonrefapp/images/warning.png') }}" title="Application incomplète" alt="dossier incomplet" />
+                				</a>
+                				{% endif %}
+								  </div>				
+                			</td>
+        				</tr>
+     			{% endif %}
+    			 {%  endfor %}
+        	</tbody>
+			</table>
+			</div>
+		</div>		
+		</div>	
+		
+		
+			<div class="container1">
+			<h4><a onclick="hidden_show('EnvAssoc');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgEnvAssoc" alt="" />{{ " Environnement(s) associé(s) : "}}</a></h4>
+ 			<div id ="EnvAssoc" class="EnvAssoc"> 
+ 			<div id="tableficheAppli">
+			<table  class="display" id="listeEnv">
+			<thead>
+        		<tr>
+            		<th>Nom</th>
+            	</tr>
+    			</thead>
+   			 <tbody>
+   			{% set nbMois1=0 %}
+   			 	{% set nbMois2=0 %} 
+   			 	{% set nbMois3=0 %}  
+   			 {% for ob in obsolescence %} 
+   			 	{% set nbMois1=ob.getNbMois1() %}
+   			 	{% set nbMois2=ob.getNbMois2() %} 
+   			 	{% set nbMois3=ob.getNbMois3() %}  
+   			 {% endfor %}
+    			 {% for environnement in list_environnement %}
+    			  {% set comp = -1 %}		 	
+    			 	{% set composants = environnement.getComposants() %}
+    			 		{% for composant in composants %}
+    			 			{% if comp <= composant.getObsolescence(nbMois1,nbMois2,nbMois3) and composant.getObsolescence(nbMois1,nbMois2,nbMois3)!= 9  %}
+    			 				{% set comp =composant.getObsolescence(nbMois1,nbMois2,nbMois3) %}
+    			 			
+    			 				{#<p> {{ comp }} </p>#}
+    			 			{% endif %}
+    					 {% endfor %} 
+    			 {% if comp != -1 %} {# Si la date est renseignée #}
+    				 {% if comp == 9  %}
+    			  		<tr>	  
+    			  	 {% elseif comp == 1 %}
+        				<tr class="jaune">	        				
+    			  	 {% elseif comp == 3 %}   
+    			  	 	<tr class="orange">	  
+    			  	 {% elseif comp == 6 %}
+        				<tr class="rouge">	
+        			{% elseif comp == 0 %}
+        				<tr class="rouge">	
+        			{% endif %}   	
+        		{% else %}
+        			<tr>
+        		{% endif %}  	
+                		
+                			<td>
+      							<a><span>{{ environnement.nom }}</span></a>
+      							<p>{{ "Répertoire : "}}
+      							{% if environnement.repertoire == NULL %}
+      								{{ "N/A" }}
+      							{% endif %}{{ environnement.repertoire }}</p>
+      							<p>{{ "Nom de l'instance : "}}
+      							{% if environnement.nomInstance == NULL %}
+      								{{ "N/A" }}
+      							{% endif %}{{ environnement.nomInstance }}</p>
+      							<p>{{ "Utilisateur Bdd : "}}
+      							{% if environnement.utilisateurBdd == NULL %}
+      								{{ "N/A" }}
+      							{% endif %}	{{ environnement.utilisateurBdd }}</p>
+      							<p>{{"Composant(s) associé(s) : "  }}
+      							{% if environnement.composants.count() == 0 %}
+      								{{ "N/A" }}
+      							{% endif %}	</p>
+      							<ul>
+      							{% for compo in environnement.composants %}
+      								<li>
+      									<p class="bold">
+										{{ compo.nomComplet }}
+                						</p>	              			
+      								</li>
+      							{% endfor %}
+      							</ul>
+      						</td>
+        				</tr>
+    			 {%  endfor %}
+        	</tbody>
+			</table>
+			</div>
+		</div>		
+		</div>	
+		
+		</div>
+		</div>
+	{% endblock %}
+	
+	{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#listeAppli').dataTable({
+
+								"aLengthMenu": [[30, 60, 90, -1], [30, 60, 90, "Tous"]],
+							    "iDisplayLength": 30,
+							   // "sProcessing":   "Chargement...",
+							 	"sLengthMenu":   "Afficher _MENU_ applications",
+							 	"sZeroRecords":  "Aucune application trouvée",
+							 	"sInfo":         "Affiche _START_ à _END_ des _TOTAL_ applications",
+							 	"sInfoEmpty":    "Affiche 0 à 0 des 0 applications",
+							 	"sInfoFiltered": "(filtrer de _MAX_ total des applications)",
+							 	"sInfoPostFix":  "",
+							 	"sSearch":       "Rechercher :",
+							 	"sUrl":          "",
+							 	"oPaginate": {
+							 		"sFirst":    "Première",
+							 		"sPrevious": "Précédente",
+							 		"sNext":     "Prochaine",
+							 		"sLast":     "Dernière"
+							 	}
+					 	});
+						 
+					} );
+
+					$(document).ready(function() {
+						$('#listeEnv').dataTable({
+
+								"aLengthMenu": [[30, 60, 90, -1], [30, 60, 90, "Tous"]],
+							    "iDisplayLength": 30,
+							   // "sProcessing":   "Chargement...",
+							 	"sLengthMenu":   "Afficher _MENU_ applications",
+							 	"sZeroRecords":  "Aucune application trouvée",
+							 	"sInfo":         "Affiche _START_ à _END_ des _TOTAL_ applications",
+							 	"sInfoEmpty":    "Affiche 0 à 0 des 0 applications",
+							 	"sInfoFiltered": "(filtrer de _MAX_ total des applications)",
+							 	"sInfoPostFix":  "",
+							 	"sSearch":       "Rechercher :",
+							 	"sUrl":          "",
+							 	"oPaginate": {
+							 		"sFirst":    "Première",
+							 		"sPrevious": "Précédente",
+							 		"sNext":     "Prochaine",
+							 		"sLast":     "Dernière"
+							 	}
+					 	});
+						 
+					} );
+					
+				    imgout=new Image(9,9);
+				    imgin=new Image(9,9);
+
+				    /////////////////BEGIN USER EDITABLE///////////////////////////////
+				    	imgout.src="{{ asset('bundles/melonrefapp/images/expand.gif') }}";
+				    	imgin.src=src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}";
+				    ///////////////END USER EDITABLE///////////////////////////////////
+
+				    //this switches expand collapse icons
+				    function filter(imagename,objectsrc){
+				    	if (document.images){
+				    		document.images[imagename].src=eval(objectsrc+".src");
+				    	}
+				    }
+
+				    //show OR hide funtion depends on if element is shown or hidden
+				    function hidden_show(id) { 
+				    	
+				    	if (document.getElementById) { // DOM3 = IE5, NS6
+				    		if (document.getElementById(id).style.display == "none"){
+				    			document.getElementById(id).style.display = 'inline-block';
+				    			filter(("img"+id),'imgin');			
+				    		} else {
+				    			filter(("img"+id),'imgout');
+				    			document.getElementById(id).style.display = 'none';			
+				    		}	
+				    	} else { 
+				    		if (document.layers) {	
+				    			if (document.id.display == "none"){
+				    				document.id.display = 'inline-block';
+				    				filter(("img"+id),'imgin');
+				    			} else {
+				    				filter(("img"+id),'imgout');	
+				    				document.id.display = 'none';
+				    			}
+				    		} else {
+				    			if (document.all.id.style.visibility == "none"){
+				    				document.all.id.style.display = 'inline-block';
+				    			} else {
+				    				filter(("img"+id),'imgout');
+				    				document.all.id.style.display = 'none';
+				    			}
+				    		}
+				    	}
+				    }
+					
+		</script>
+	{% endblock %}
+

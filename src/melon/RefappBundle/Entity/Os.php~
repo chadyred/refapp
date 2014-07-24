@@ -1,0 +1,16 @@
+<?php
+
+namespace melon\RefappBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Os
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="melon\RefappBundle\Entity\OsRepository")
+ */
+class Os extends Composant
+{
+
+}

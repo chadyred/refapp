@@ -1,0 +1,14 @@
+parameters:
+    database_driver:   pdo_mysql
+    database_host:     127.0.0.1
+    database_port:     ~
+    database_name:     symfony
+    database_user:     root
+    database_password: root
+    
+    locale: fr
+    secret:  ThisTokenIsNotSoSecretChangeIt
+   
+    mailer_transport: smtp
+    mailer_host:      smtp.cg38.local
+    mailer_port: 25

@@ -1,0 +1,205 @@
+<?php
+
+namespace melon\RefappBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Environnement
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="melon\RefappBundle\Entity\EnvironnementRepository")
+ */
+class Environnement
+{
+	
+	/**
+	 * @ORM\ManyToMany(targetEntity="melon\RefappBundle\Entity\Application", mappedBy="environnements", cascade={"persist"})
+	 */
+	private $applications;
+	
+	/**
+	 * @ORM\ManyToMany(targetEntity="melon\RefappBundle\Entity\Serveur", inversedBy="environnements", cascade={"persist"})
+	 */
+	private $serveurs; 
+	
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
+     */
+    private $nom;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="repertoire", type="string", length=255, nullable=true)
+     */
+    private $repertoire;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="nomInstance", type="string", length=255, nullable=true)
+     */
+    private $nomInstance;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="utilisateurBdd", type="string", length=255, nullable=true)
+     */
+    private $utilisateurBdd;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set nom
+     *
+     * @param string $nom
+     * @return Environnement
+     */
+    public function setNom($nom)
+    {
+        $this->nom = $nom;
+    
+        return $this;
+    }
+
+    /**
+     * Get nom
+     *
+     * @return string 
+     */
+    public function getNom()
+    {
+        return $this->nom;
+    }
+
+    /**
+     * Set repertoire
+     *
+     * @param string $repertoire
+     * @return Environnement
+     */
+    public function setRepertoire($repertoire)
+    {
+        $this->repertoire = $repertoire;
+    
+        return $this;
+    }
+
+    /**
+     * Get repertoire
+     *
+     * @return string 
+     */
+    public function getRepertoire()
+    {
+        return $this->repertoire;
+    }
+
+    /**
+     * Set nomInstance
+     *
+     * @param string $nomInstance
+     * @return Environnement
+     */
+    public function setNomInstance($nomInstance)
+    {
+        $this->nomInstance = $nomInstance;
+    
+        return $this;
+    }
+
+    /**
+     * Get nomInstance
+     *
+     * @return string 
+     */
+    public function getNomInstance()
+    {
+        return $this->nomInstance;
+    }
+
+    /**
+     * Set utilisateurBdd
+     *
+     * @param string $utilisateurBdd
+     * @return Environnement
+     */
+    public function setUtilisateurBdd($utilisateurBdd)
+    {
+        $this->utilisateurBdd = $utilisateurBdd;
+    
+        return $this;
+    }
+
+    /**
+     * Get utilisateurBdd
+     *
+     * @return string 
+     */
+    public function getUtilisateurBdd()
+    {
+        return $this->utilisateurBdd;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->serveurs = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add applications
+     *
+     * @param \melon\RefappBundle\Entity\Application $applications
+     * @return Environnement
+     */
+    public function addApplication(\melon\RefappBundle\Entity\Application $applications)
+    {
+        $this->applications[] = $applications;
+    
+        return $this;
+    }
+
+    /**
+     * Remove applications
+     *
+     * @param \melon\RefappBundle\Entity\Application $applications
+     */
+    public function removeApplication(\melon\RefappBundle\Entity\Application $applications)
+    {
+        $this->applications->removeElement($applications);
+    }
+
+    /**
+     * Get applications
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getApplications()
+    {
+        return $this->applications;
+    }
+}

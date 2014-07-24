@@ -1,0 +1,642 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+
+			<h2>Fiche synthèse de l'application {{ '"' ~ appli.getNom ~ '"' ~ ' (application mise a jour le ' ~  appli.getDateDerniereMiseAJour|date('d/m/Y') ~ ')' }} </h2>
+				<div class="formFicheAppli">
+							<div class="validation">
+ 			
+			{% set b=1 %} 
+			{% if is_granted('ROLE_ADMIN') %}
+								    <a href="{{ path('_modifierAppli', {'id': appli.id}) }}">
+					<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+				</a> 
+                				{% elseif is_granted('ROLE_RESPONSABLE_APPLICATION') %}
+                					{% for responsable in appli.getResponsablesDsi() %}
+                					{% if (app.user.getUsername() == responsable.getUsername() and b==1) %}
+									<a href="{{ path('_modifierAppli', {'id': appli.id}) }}">
+										<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+									</a>
+									{% set b=0 %} 
+									{% endif %}
+									{% endfor %}
+			{% endif %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('_supprimerAppli', {'id': appli.id}) }}">
+					<input  type="submit" class="btn-primary" name="supprimer" value="Supprimer"/>
+				</a>
+			{% endif %}
+			</div>
+					<div class="container1">
+					<h4><a onclick="hidden_show('InfoGeneral');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgInfoGeneral" alt="" />{{ " Informations générales : "}}</a></h4>
+					<div id="InfoGeneral" class="formInfo">
+					<div class="block-left">  
+					<p><span>{{"Code :"}} </span>{{ appli.getCode }}	</p>		
+					<p><span>{{"Nom :"}}</span> {{ appli.getNom }}</p>
+					{% if appli.version == NULL %}
+						<p><span>{{"Version : "}}</span>{{"N/A"}}</p>
+					{% else %}
+						<p><span>{{"Version :"}}</span> {{ appli.getVersion() }}</p>
+					{% endif %}	
+					
+					{% if appli.periodeCritique == NULL %}
+						<p><span>{{"Période Critique : "}}</span>{{"N/A"}}</p>
+					{% else %}
+						<p><span>{{"Période Critique :"}}</span> {{ appli.getPeriodeCritique() }}</p>
+					{% endif %}	
+					</div>
+					<div class="block-right">
+					
+					{% if appli.dossierCNIL == NULL %}
+						<p><span>{{"Dossier CNIL : "}}</span>{{"N/A"}}</p>
+					{% else %}
+						{% if appli.getDossierCNIL()==1 %}	
+							<p><span>{{"Dossier CNIL : "}}</span>{{"oui"}} </p>
+						{% else %}
+							<p><span>{{"Dossier CNIL : "}}</span> {{"non"}}</p>
+						{% endif %}	
+					{% endif %}	
+					
+					{% if appli.dateCreationDossierCNIL == NULL %}
+						<p><span>{{"Date de création du dossier : "}}</span>{{"N/A"}}</p>
+					{% else %}
+						<p><span>{{"Date de création du dossier : "}} </span>{{ appli.getDateCreationDossierCNIL()|date('d/m/Y') }}</p>
+					{% endif %}	
+					
+					
+					{% if appli.dateMiseEnOeuvre == NULL %}
+						<p><span>{{"Date de mise en oeuvre : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Date de mise en oeuvre : "}} </span>{{ appli.getDateMiseEnOeuvre()|date('d/m/Y') }}</p>
+					{% endif %}	
+					
+					
+					{% if appli.dateDerniereMiseAJour == NULL %}
+						<p><span>{{"Dernière mise a jour de l'application : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Dernière mise a jour de l'application : "}} </span>{{ appli.getDateDerniereMiseAJour()|date('d/m/Y') }}</p>
+					{% endif %}	
+					
+					
+					{% if appli.dateFinDeVie == NULL %}
+						<p><span>{{"L'application expire le : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"L'application expire le : "}}</span> {{ appli.dateFinDeVie()|date('d/m/Y') }}</p>
+					{% endif %}	
+					</div>
+					<div id="InfoGeneral1" class="formInfo2">
+					<div class="block-left">  
+					{% if appli.objet == NULL %}
+						<p><span>{{"Objet : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Objet :"}}</span> {{ appli.getObjet() }}</p>
+					{% endif %}	
+					
+					{% if appli.fonctionPrincipal == NULL %}
+						<p><span>{{"Fonction Principale : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Fonction Principale :"}}</span> {{ appli.getFonctionPrincipal() }}</p>
+					{% endif %}	
+					
+					{% if appli.famille == NULL %}
+						<p><span>{{"Famille : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Famille :"}} </span>{{ appli.getFamille() }}</p>
+					{% endif %}	
+					
+					{% if appli.nbUtilisateur == NULL %}
+						<p><span>{{"Nombre d'utilisateur : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Nombre d'utilisateur :"}} </span>{{ appli.getNbUtilisateur() }}</p>
+					{% endif %}	
+					
+					{% if appli.administrateurFonctionnel == NULL %}
+						<p><span>{{"Administrateur fonctionnel : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Administrateur fonctionnel :"}}</span> {{ appli.getAdministrateurFonctionnel() }}</p>
+					{% endif %}	
+					</div>
+					<div class="block-right">  
+					{% if appli.traitementDonnee == NULL %}
+						<p><span>{{"Traitement de donnée : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Traitement de donnée :"}}</span> {{ appli.getTraitementDonnee() }}</p>
+					{% endif %}	 
+					
+					{% if appli.compatibilite == NULL %}
+						<p><span>{{"Compatibilité : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Compatibilité :"}}</span> {{ appli.getCompatibilite() }}</p>
+					{% endif %}	
+					
+					{% if appli.donneeFederale == NULL %}
+						<p><span>{{"Donnée Fédérale : "}}</span>{{"N/A"}}</p>
+					{% else %}
+						{% if appli.getDonneeFederale()==1 %}	
+						<p><span>	{{"Existance de donnée fédérale : "}}</span>{{"oui"}}</p>
+						{% else %}
+						<p><span>	{{"Existance de donnée fédérale : "}}</span>{{"non"}}</p>
+						{% endif %}		
+					{% endif %}	
+					
+					{% if appli.exterieurCG == NULL %}
+						<p><span>{{"Extérieur à la mairie : "}}</span>{{"N/A"}}</p>
+					{% else %}
+						{% if appli.getExterieurCG()==1 %}	
+							<p><span>{{"Accès avec des partenaires extérieurs du CG : "}}</span>{{"oui"}}</p>
+						{% else %}
+							<p><span>{{"Accès avec des partenaires extérieurs du CG : "}}</span>{{"non"}}</p>
+						{% endif %}		
+					{% endif %}	
+					
+					{% if appli.commentaire == NULL %}
+						<p><span>{{"Commentaire : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Commentaire :"}} </span>{{ appli.getCommentaire() }}</p>
+					{% endif %}	
+					</div>
+				</div>
+				</div>
+				</div>
+				<div class="container1">
+				<h4><a onclick="hidden_show('InfoEntites');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgInfoEntites" alt="" />{{ " Entités associées : "}}</a></h4>
+				<div id ="InfoEntites" class="formEntitesAssociees">
+					<div  class="block-left">	
+					{% if appli.domaine == NULL %}
+						<p><span>{{"Domaine : "}}</span>{{"N/A"}}</p>
+					{% else %}
+						<p><span>{{"Domaine :"}} </span>{{ appli.domaine.getNom() }}</p>
+					{% endif %}	
+					
+					
+					{% if appli.editeur == NULL %}
+						<p><span>{{"Editeur : "}}</span>{{"N/A"}}</p>
+					{% else %}			
+						<p><span>{{"Editeur : "}} </span><a href="{{ path('_ficheEditeur', {'id': appli.editeur.getId()}) }}">{{ appli.editeur.getNom() }}</a></p>
+						<div id="InfoEditeur"> 
+							<p>{{ "Numero de téléphone : "~ appli.editeur.getNumtel() }}</p>
+							<p>{{ "Adresse : " ~ appli.editeur.getNumero()~" "~appli.editeur.getRue()~" "~appli.editeur.getCodepostal()~" "~appli.editeur.getVille() }}</p>
+							<p>{{ "Email : " ~ appli.editeur.getMail() }}</p>
+							<p>{{ "Responsable Technique : "~ appli.editeur.getResponsableTechnique() }}</p>
+							<p>{{ "Responsable Application : "~ appli.editeur.getResponsableApplication() }}</p>
+						</div>
+					{% endif %}	
+					
+					<!-- Affiche toutes les directions associ�es � l'application  -->
+					{% if appli.directions.count > 0 %}
+   						<p><span>{{"Directions : "}}</span>
+   					{% for direction in appli.directions %}
+      						{{ direction.nom }}
+      				{% if not loop.last %} - {% endif %}
+   					{% endfor %}</p>
+   					{% else %}
+   						<p><span>{{"Directions : "}}</span>{{"N/A"}}</p>
+ 					{% endif %}
+ 					
+ 						<!-- Affiche toutes les service(s) associ�es � l'application  -->
+				{% if appli.servicesAppliDsi.count > 0 %}
+   					<p><span>{{"Service(s) gérant(s) :"}}</span>
+   					{% for serviceAppliDsi in appli.servicesAppliDsi %}
+      						{{ serviceAppliDsi.nom }}
+      				{% if not loop.last %} - {% endif %}
+   					{% endfor %}</p>
+   				{% else %}
+   					<p><span>{{"Service(s) gérant(s) : "}}</span>{{"N/A"}}</p>
+ 				{% endif %}
+ 				
+ 				<!-- Affiche toutes les directions associ�es � l'application  -->
+				{% if appli.responsablesDsi.count > 0 %}
+   					<p><span>{{"Responsable(s) :"}}</span>
+   					{% for responsableDsi in appli.responsablesDsi %}
+      						{{ responsableDsi.nom }}
+      				{% if not loop.last %} - {% endif %}
+   					{% endfor %}</p>
+   				{% else %}
+   					<p><span>{{"Responsable(s) : "}}</span>{{"N/A"}}</p>
+ 				{% endif %}
+ 				
+					</div> {# fin de la div block -left#}
+					<div class="block-right">	
+					{% if appli.marche == NULL %}
+						<p><span>{{"Marché : "}}</span>{{"N/A"}}</p>
+					{% else %}	
+						<p><span>{{"Marché :"}}</span></p>
+						<p><span>{{"Date début : "}} </span>{{ appli.marche.getDateDebut()|date('d/m/Y') }}</p>
+						<p><span>{{"Date de fin : "}}</span>{{ appli.marche.getDateFin()|date('d/m/Y') }}</p>
+					{% endif %}
+					
+			
+ 			<!-- Affiche toutes les technologie(s) associ�es � l'application  -->
+				{% if appli.technologies.count > 0 %}
+   					<p><span>{{"Technologie(s) :"}}</span>
+   					{% for technologie in appli.technologies %}
+      						{{ technologie.nom }}
+      				{% if not loop.last %} - {% endif %}
+   					{% endfor %}</p>
+   				{% else %}
+   					<p><span>{{"Technologie(s) : "}}</span>{{"N/A"}}</p>
+ 				{% endif %}
+ 					
+ 			<!-- Affiche toutes les docs associées à l'application  -->
+				
+ 				</div>{# fin de la div block-right#}
+ 				</div>	{# fin de la div .formEntitesAssociees #}
+ 				</div>	{# fin de la div id = container1 #}
+ 				<div class="container1">
+					<h4><a onclick="hidden_show('Composants');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgComposants" alt="" />{{ " Composant(s) associé(s)"}}</a></h4>
+ 				<div id ="Composants" class ="formComposants"> 
+				<div class="block-left">	
+ 				{% set nbMois1=0 %}{# on initialise les variables des mois à 0#}
+   			 	{% set nbMois2=0 %} 
+   			 	{% set nbMois3=0 %}  
+   			 {% for ob in obsolescence %} 
+   			 	{% set nbMois1=ob.getNbMois1() %}
+   			 	{% set nbMois2=ob.getNbMois2() %} 
+   			 	{% set nbMois3=ob.getNbMois3() %}  
+   			 {% endfor %}
+ 			<!-- Affiche toutes les langages associ�es � l'application  -->
+ 			
+   			{% if list_langage_appli == NULL %}
+   				<p>	<span class="attribut">{{"Langage(s) : "}}</span>{{"N/A"}}</p>
+   			{% else %}
+   				<p><span class="attribut">{{"Langage(s) : "}}</span></p>
+   				<ul>
+   					{% for langage in list_langage_appli %}
+   						{% if (langage.getObsolescence(nbMois1,nbMois2,nbMois3) == -1) %} <!-- Non renseigné -->
+   						   	<li class="normal">{{ langage.nom ~ " " ~ langage.version}} </li>	
+   						{% elseif (langage.getObsolescence(nbMois1,nbMois2,nbMois3) == 0) %} 	<!-- Périmé depuis dateFin-->
+   							<li class="rouge">{{ langage.nom ~ " " ~ langage.version}} : langage déja obsolete depuis {{langage.getDateFin()|date('d/m/Y') }}</li>  		
+   						{% elseif (langage.getObsolescence(nbMois1,nbMois2,nbMois3) == 1) %} 	<!-- Périmé dans 1 mois-->
+   							<li class="jaune">{{ langage.nom ~ " " ~ langage.version}} : langage obsolete dans {{ nbMois1 }} mois </li>
+      					{% elseif (langage.getObsolescence(nbMois1,nbMois2,nbMois3) == 3) %}	<!-- Périmé dans 3 mois-->
+   							<li class="orange">{{ langage.nom ~ " " ~ langage.version}} : langage obsolete dans {{ nbMois2 }} mois </li>
+   						{% elseif (langage.getObsolescence(nbMois1,nbMois2,nbMois3) == 6) %}	<!-- Périmé dans 6 mois-->
+   							<li class="rouge">{{ langage.nom ~ " " ~ langage.version}} : langage obsolete dans {{ nbMois3 }} mois </li>
+   						{% elseif (langage.getObsolescence(nbMois1,nbMois2,nbMois3) == 9) %} 	<!-- A jour -->
+   							<li class="normal">{{ langage.nom ~ " " ~ langage.version}}  </li>
+   						{% else %}
+   							<li class="normal">{{ langage.nom ~ " " ~ langage.version}} <!-- Exception -->  </li>
+   						{% endif %}	
+      				
+   					{% endfor %}
+   				</ul>
+   			{% endif %}
+   		
+   				
+   				<!-- Affiche toutes les sgbd associ�es � l'application  -->
+ 				{% if list_sgbd_appli == NULL %}
+   					<p><span class="attribut">{{"Sgbd(s) : "}}</span>{{"N/A"}}</p>
+   				{% else %}
+   					<p><span class="attribut">{{"Sgbd(s) : "}}</span></p>
+   					<ul>
+   					{% for sgbd in list_sgbd_appli%}
+   						{% if (sgbd.getObsolescence(nbMois1,nbMois2,nbMois3) == -1) %} <!-- Non renseigné -->
+   						   	<li class="normal">{{ sgbd.nom ~ " " ~ sgbd.version}} </li>	
+   						{% elseif (sgbd.getObsolescence(nbMois1,nbMois2,nbMois3) == 0) %} 	<!-- Périmé mois d'un 1 mois-->
+   							<li class="rouge">{{ sgbd.nom ~ " " ~ sgbd.version}}  : sgbd déja obsolete depuis {{sgbd.getDateFin()|date('d/m/Y') }}</li>  		
+   						{% elseif (sgbd.getObsolescence(nbMois1,nbMois2,nbMois3) == 1) %} 	<!-- Périmé dans 1 mois-->
+   							<li class="jaune">{{ sgbd.nom ~ " " ~ sgbd.version}} : sgbd obsolete dans {{ nbMois1 }} mois </li>
+      					{% elseif (sgbd.getObsolescence(nbMois1,nbMois2,nbMois3) == 3) %}	<!-- Périmé dans 3 mois-->
+   							<li class="orange">{{ sgbd.nom ~ " " ~ sgbd.version}} : sgbd obsolete dans {{ nbMois2 }} mois </li>
+   						{% elseif (sgbd.getObsolescence(nbMois1,nbMois2,nbMois3) == 6) %}	<!-- Périmé dans 6 mois-->
+   							<li class="rouge">{{ sgbd.nom ~ " " ~ sgbd.version}} : sgbd obsolete dans {{ nbMois3 }} mois </li>
+   						{% elseif (sgbd.getObsolescence(nbMois1,nbMois2,nbMois3) == 9) %} 	<!-- A jour -->
+   							<li class="normal">{{ sgbd.nom ~ " " ~ sgbd.version}}  </li>
+   						{% else %}
+   						<li class="normal">{{ sgbd.nom ~ " " ~ sgbd.version}} <!-- Exception -->  </li>
+   						{% endif %}	
+   					{% endfor %}
+   					</ul>
+   				{% endif %}
+   		
+   			
+   				<!-- Affiche toutes les logiciels associ�es � l'application  -->				
+   				{% if list_logiciel_appli == NULL %}
+   					<p><span class="attribut">{{"Logiciel(s) : "}}</span>{{"N/A"}}</p>
+   				{% else %}
+   					<p><span class="attribut">{{"Logiciel(s) : "}}</span></p>
+   					<ul>
+   					{% for logiciel in list_logiciel_appli%}
+   						{% if (logiciel.getObsolescence(nbMois1,nbMois2,nbMois3) == -1) %} <!-- Non renseigné -->
+   						   	<li class="normal">{{ logiciel.nom ~ " " ~ logiciel.version}} </li>	
+   						{% elseif (logiciel.getObsolescence(nbMois1,nbMois2,nbMois3) == 0) %} 	<!-- Périmé mois d'un 1 mois-->
+   							<li class="rouge">{{ logiciel.nom ~ " " ~ logiciel.version}}  : logiciel déja obsolete depuis {{logiciel.getDateFin()|date('d/m/Y') }}</li>  		
+   						{% elseif (logiciel.getObsolescence(nbMois1,nbMois2,nbMois3) == 1) %} 	<!-- Périmé dans 1 mois-->
+   							<li class="jaune">{{ logiciel.nom ~ " " ~ logiciel.version}} : logiciel obsolete dans {{ nbMois1 }} mois </li>
+      					{% elseif (logiciel.getObsolescence(nbMois1,nbMois2,nbMois3) == 3) %}	<!-- Périmé dans 3 mois-->
+   							<li class="orange">{{ logiciel.nom ~ " " ~ logiciel.version}} : logiciel obsolete dans {{ nbMois2 }} mois </li>
+   						{% elseif (logiciel.getObsolescence(nbMois1,nbMois2,nbMois3) == 6) %}	<!-- Périmé dans 6 mois-->
+   							<li class="rouge">{{ logiciel.nom ~ " " ~ logiciel.version}} : logiciel obsolete dans {{ nbMois3 }} mois </li>
+   						{% elseif (logiciel.getObsolescence(nbMois1,nbMois2,nbMois3) == 9) %} 	<!-- A jour -->
+   							<li class="normal">{{ logiciel.nom ~ " " ~ logiciel.version}}  </li>
+   						{% else %}
+   							<li class="normal">{{ logiciel.nom ~ " " ~ logiciel.version}} <!-- Exception -->  </li>
+   						{% endif %}	
+   					{% endfor %}
+   					</ul>
+   				{% endif %}
+   				</div>
+   				<div class="block-right">
+   				<!-- Affiche toutes les os associ�es � l'application  -->
+ 				{% if list_os_appli == NULL %}
+   					<p><span class="attribut">{{"Os(s) : "}}</span>{{"N/A"}}</p>
+   				{% else %}
+   					<p><span class="attribut">{{"Os(s) : "}}</span></p>
+   					<ul>
+   					{% for os in list_os_appli %}
+   						{% if (os.getObsolescence(nbMois1,nbMois2,nbMois3) == -1) %} <!-- Non renseigné -->
+   						   	<li class="normal">{{ os.nom ~ " " ~ os.version}} </li>	
+   						{% elseif (os.getObsolescence(nbMois1,nbMois2,nbMois3) == 0) %} 	<!-- Périmé mois d'un 1 mois-->
+   							<li class="rouge">{{ os.nom ~ " " ~ os.version}} : os déja obsolete depuis {{os.getDateFin()|date('d/m/Y') }} </li>  		
+   						{% elseif (os.getObsolescence(nbMois1,nbMois2,nbMois3) == 1) %} 	<!-- Périmé dans 1 mois-->
+   							<li class="jaune">{{ os.nom ~ " " ~ os.version}} : os obsolete dans {{ nbMois1 }} mois </li>
+      					{% elseif (os.getObsolescence(nbMois1,nbMois2,nbMois3) == 3) %}	<!-- Périmé dans 3 mois-->
+   							<li class="orange">{{ os.nom ~ " " ~ os.version}} : os obsolete dans {{ nbMois2 }} mois </li>
+   						{% elseif (os.getObsolescence(nbMois1,nbMois2,nbMois3) == 6) %}	<!-- Périmé dans 6 mois-->
+   							<li class="rouge">{{ os.nom ~ " " ~ os.version}} : os obsolete dans {{ nbMois3 }} mois </li>
+   						{% elseif (os.getObsolescence(nbMois1,nbMois2,nbMois3) == 9) %} 	<!-- A jour -->
+   							<li class="normal">{{ os.nom ~ " " ~ os.version}}  </li>
+   						{% else %}
+   							<li class="normal">{{ os.nom ~ " " ~ os.version}} <!-- Exception -->  </li>
+   						{% endif %}	
+   					{% endfor %}</ul>
+   				{% endif %}
+   				
+   				
+   				<!-- Affiche toutes les serveurWeb associ�es � l'application  -->
+   				{% if list_serveurWeb_appli == NULL %}
+   					<p><span class="attribut">{{"Serveur(s) : "}}</span>{{"N/A"}}</p>
+   				{% else %}
+   					<p><span class="attribut">{{"Serveur(s) : "}}</span></p>
+   					<ul>
+   					{% for serveurWeb in list_serveurWeb_appli%}
+   						{% if (serveurWeb.getObsolescence(nbMois1,nbMois2,nbMois3) == -1) %} <!-- Non renseigné -->
+   						   	<li class="normal">{{ serveurWeb.nom ~ " " ~ serveurWeb.version}} </li>	
+   						{% elseif (serveurWeb.getObsolescence(nbMois1,nbMois2,nbMois3) == 0) %} 	<!-- Périmé mois d'un 1 mois-->
+   							<li class="rouge">{{ serveurWeb.nom ~ " " ~ serveurWeb.version}}  : serveurWeb déja obsolete depuis {{serveurWeb.getDateFin()|date('d/m/Y') }} </li>  		
+   						{% elseif (serveurWeb.getObsolescence(nbMois1,nbMois2,nbMois3) == 1) %} 	<!-- Périmé dans 1 mois-->
+   							<li class="jaune">{{ serveurWeb.nom ~ " " ~ serveurWeb.version}} : serveurWeb obsolete dans {{ nbMois1 }} mois </li>
+      					{% elseif (serveurWeb.getObsolescence(nbMois1,nbMois2,nbMois3) == 3) %}	<!-- Périmé dans 3 mois-->
+   							<li class="orange">{{ serveurWeb.nom ~ " " ~ serveurWeb.version}} : serveurWeb obsolete dans {{ nbMois2 }} mois </li>
+   						{% elseif (serveurWeb.getObsolescence(nbMois1,nbMois2,nbMois3) == 6) %}	<!-- Périmé dans 6 mois-->
+   							<li class="rouge">{{ serveurWeb.nom ~ " " ~ serveurWeb.version}} : serveurWeb obsolete dans {{ nbMois3 }} mois </li>
+   						{% elseif (serveurWeb.getObsolescence(nbMois1,nbMois2,nbMois3) == 9) %} 	<!-- A jour -->
+   							<li class="normal">{{ serveurWeb.nom ~ " " ~ serveurWeb.version}}  </li>
+   						{% else %}
+   							<li class="normal">{{ serveurWeb.nom ~ " " ~ serveurWeb.version}} <!-- Exception -->  </li>
+   						{% endif %}	
+   					{% endfor %}</ul>
+   				{% endif %}
+   				</div>	 			<!-- fin blockright  -->
+   				</div>	 			<!-- fin form -->
+   				</div>	 			<!-- fin container1  -->
+   				
+   				<div class="container1">
+				<h4><a onclick="hidden_show('Environnements');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgEnvironnements" alt="" />{{ " Environnement(s) associé(s)"}}</a></h4>
+ 				<div id ="Environnements" class ="formSup2"> 
+				<div  id="tableficheAppli">	
+ 			<!-- Affiche toutes les docs associ�es � l'application  -->
+				{% if appli.environnements.count > 0 %}
+  					<table class="display" id="listeEnv">
+      				
+   					{% for environnement in appli.environnements %}
+      			
+      						<tr>
+      							<td>
+      							<a><span>{{ environnement.nom }}</span></a>
+      							<p>{{ "Répertoire : "}}{{ environnement.repertoire }}</p>
+      							<p>{{ "Nom de l'instance : "}}{{ environnement.nomInstance }}</p>
+      							<p>{{ "Utilisateur Bdd : "}}{{ environnement.utilisateurBdd }}<p>
+      							<p>{{"Serveur(s) associé(s) : "  }}</p>
+      							<ul>
+      							{% for serveur in environnement.serveurs %}
+      							
+      								<li>
+      									<a href="{{ path('_ficheServeur', { 'id': serveur.getId() }) }}">
+										{{ serveur.nom }}
+                						</a>	              			
+      								</li>
+      							{% endfor %}
+      							</ul>
+      							<p>{{"Composant(s) associé(s) : "  }}</p>
+      							<ul>
+      							{% for comp in environnement.composants %}
+      							
+      								<li>
+      									<p class="bold">
+										{{ comp.nomComplet }}
+                						</p>	              			
+      								</li>
+      							{% endfor %}
+      							</ul>
+      							</td>
+      						</tr>
+      			
+      					
+  
+   					{% endfor %}
+   				</table>
+   				{% else %}
+   					<p class="NA"><span>{{"Environnements(s) : "}} </span>{{"N/A"}}	<p>
+ 				{% endif %}
+				</div>
+				</div>
+				</div> 					
+ 				<div class="container1">
+				<h4><a onclick="hidden_show('Documentations');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgDocumentations" alt="" />{{ " Documentation(s) associée(s)"}}</a></h4>
+ 				<div id ="Documentations" class ="formSup3"> 
+				<div id="tableficheAppli">		
+ 				<!-- Affiche toutes les docs associ�es � l'application  -->
+				{% if appli.documentations.count > 0 %}
+			<table class="display" id="listeDoc">
+      				
+   					{% for documentation in appli.documentations %}
+      				
+      						<tr>
+      							<td>
+      							<a><span>{{ documentation.nom }}</span></a>
+      							<ul>
+      							<li>{{ "Lien : "}}<a href="{{documentation.lien}}"  onclick="window.open(this.href);">{{documentation.lien}}</a></li>
+      							<li>{{ "Mis à jour le : "}}{{ documentation.dateMaj|date('d/m/Y') }}</li>
+      							<li>{{ "Version : "}}{{ documentation.version }}</li>
+      							</ul>
+      							</td>
+      						</tr>
+      			{% endfor %}
+      			</table>
+   				{% else %}
+   					<p class="NA"><span>{{"Documentation(s) : "}} </span>{{"N/A"}}	</p>
+ 				{% endif %}
+ 				</div>
+				</div>
+				</div>
+ 				<div class="container1">
+				<h4><a onclick="hidden_show('Applications');"><img src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}" width="9" height="9" id="imgApplications" alt="" />{{ " Application(s) associée(s)"}}</a></h4>
+ 				<div id ="Applications" class ="formSup4"> 
+				<div id="tableficheAppli">		
+ 			<!-- Affiche toutes les applications liées à l'application  -->
+				{% if appli.applications.count > 0 %}
+				<table class="display" id="listeAppli">
+      	
+   			 <tbody>
+   			{% set nbMois1=0 %}
+   			 	{% set nbMois2=0 %} 
+   			 	{% set nbMois3=0 %}  
+   			 {% for ob in obsolescence %} 
+   			 	{% set nbMois1=ob.getNbMois1() %}
+   			 	{% set nbMois2=ob.getNbMois2() %} 
+   			 	{% set nbMois3=ob.getNbMois3() %}  
+   			 {% endfor %}
+    			 {% for application in appli.applications %}
+    			 {% if (application.EnFinDeVie()==0) %}
+    			  {% set comp = -1 %}		 	
+    			 	{% set composants = application.getComposants() %}
+    			 		{% for composant in composants %}
+    			 			{% if comp <= composant.getObsolescence(nbMois1,nbMois2,nbMois3) %}
+    			 				{% set comp =composant.getObsolescence(nbMois1,nbMois2,nbMois3) %}
+    			 				{#<p> {{ comp }} </p>#}
+    			 			{% endif %}
+    					 {% endfor %} 
+    			 {% if comp != -1 %} {# Si la date est renseignée #}
+    				 {% if comp == 9  %}
+    			  		<tr>	  
+    			  	 {% elseif comp == 1 %}
+        				<tr class="jaune">	        				
+    			  	 {% elseif comp == 3 %}   
+    			  	 	<tr class="orange">	  
+    			  	 {% elseif comp == 6 %}
+        				<tr class="rouge">	
+        			{% elseif comp == 0 %}
+        				<tr class="rouge">	
+        			{% endif %}   	
+        		{% else %}
+        			<tr>
+        		{% endif %} 
+        		 				
+      							<td>
+      							<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					<span>{{ application.getNom()~" "~ application.getVersion() }}</span>
+                				</a>	
+      							</td>
+      						</tr>
+      			
+      			{% else %}
+        			<tr class="gris">
+        					<td>
+      							<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					<span>{{ application.getNom()~" "~ application.getVersion() }}</span>
+                					
+                				</a>	
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">
+        						 <span>{{ "Application Obsolète" }}</span></a>
+      							</td>
+      						</tr>
+        				
+        		{% endif %} 
+        		{% endfor %}
+      			</tbody>
+      			</table>
+   				{% else %}
+   					<p class="NA"><span>{{"Application(s) : "}} </span>{{"N/A"}}	</p>
+ 				{% endif %}
+ 				</div>
+ 				</div>
+ 				</div>
+ 				<div class="validation">
+ 				{% set b=1 %} 
+				{% if is_granted('ROLE_ADMIN') %}
+								    <a href="{{ path('_modifierAppli', {'id': appli.id}) }}">
+					<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+				</a> 
+                				{% elseif is_granted('ROLE_RESPONSABLE_APPLICATION') %}
+                					{% for responsable in appli.getResponsablesDsi() %}
+                					{% if (app.user.getUsername() == responsable.getUsername() and b==1) %}
+									<a href="{{ path('_modifierAppli', {'id': appli.id}) }}">
+										<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+									</a>
+									{% set b=0 %} 
+									{% endif %}
+									{% endfor %}
+			{% endif %}
+			{% if is_granted('ROLE_ADMIN') %}
+				<a href="{{ path('_supprimerAppli', {'id': appli.id}) }}">
+					<input  type="submit" class="btn-primary" name="supprimer" value="Supprimer"/>
+				</a>
+			{% endif %}
+			</div>
+		</div>
+		</div>
+	{% endblock %}		
+{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#listeEnv').dataTable();
+						 
+					} );
+
+					$(document).ready(function() {
+						$('#listeDoc').dataTable();
+						 
+					} );
+					$(document).ready(function() {
+						$('#listeAppli').dataTable();
+						 
+					} );
+		
+					imgout=new Image(9,9);
+				    imgin=new Image(9,9);
+
+				    /////////////////BEGIN USER EDITABLE///////////////////////////////
+				    	imgout.src="{{ asset('bundles/melonrefapp/images/expand.gif') }}";
+				    	imgin.src=src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}";
+				    ///////////////END USER EDITABLE///////////////////////////////////
+
+				    //this switches expand collapse icons
+				    function filter(imagename,objectsrc){
+				    	if (document.images){
+				    		document.images[imagename].src=eval(objectsrc+".src");
+				    	}
+				    }
+
+				    //show OR hide funtion depends on if element is shown or hidden
+				    function hidden_show(id) { 
+				    	
+				    	if (document.getElementById) { // DOM3 = IE5, NS6
+				    		if (document.getElementById(id).style.display == "none"){
+				    			document.getElementById(id).style.display = 'inline-block';
+				    			filter(("img"+id),'imgin');			
+				    		} else {
+				    			filter(("img"+id),'imgout');
+				    			document.getElementById(id).style.display = 'none';			
+				    		}	
+				    	} else { 
+				    		if (document.layers) {	
+				    			if (document.id.display == "none"){
+				    				document.id.display = 'inline-block';
+				    				filter(("img"+id),'imgin');
+				    			} else {
+				    				filter(("img"+id),'imgout');	
+				    				document.id.display = 'none';
+				    			}
+				    		} else {
+				    			if (document.all.id.style.visibility == "none"){
+				    				document.all.id.style.display = 'inline-block';
+				    			} else {
+				    				filter(("img"+id),'imgout');
+				    				document.all.id.style.display = 'none';
+				    			}
+				    		}
+				    	}
+				    }
+
+</script>
+	{% endblock %}

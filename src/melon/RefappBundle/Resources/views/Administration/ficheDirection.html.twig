@@ -1,0 +1,30 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+
+			<h2>Fiche direction {{ direction.getNom }}</h2>
+			<div class="formAjoutObjet">
+				<div class="contAjoutObjet">
+				<p>{{"Nom : "}} {{ direction.getNom }}</p>
+				<p>{{"Correspondant informatique :"}} {{ direction.getCorrespondantInformatique }}</p>
+				</div>
+							<div class="bouton">
+				
+			<a href="{{ path('_administration') }}">
+				<input  type="submit" class="btn-primary" name="retour" value="Retour à la liste"/>
+			</a>
+			<a href="{{ path('_modifierDirection', {'id': direction.id}) }}">
+				<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+			</a>
+			</div>
+			</div>
+		</div>	
+	{% endblock %}

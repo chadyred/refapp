@@ -1,0 +1,10 @@
+parameters:
+
+services:
+  wsse.security.authentication.provider:
+    class:  melon\RefappBundle\Security\Authentication\Provider\WsseProvider
+    arguments: ['', _kernel.cache_dir_/security/nonces]
+
+  wsse.security.authentication.listener:
+    class:  melon\RefappBundle\Security\Firewall\WsseListener
+    arguments: [_security.context, _security.authentication.manager]

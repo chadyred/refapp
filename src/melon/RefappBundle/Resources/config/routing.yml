@@ -1,0 +1,346 @@
+###################
+# IndexController #
+###################
+
+_index:
+    resource: "@melonRefappBundle/Controller/IndexController.php"
+    type : annotation   
+    
+_favoris:
+   resource: "@melonRefappBundle/Controller/FavorisController.php"
+   type : annotation   
+
+#########################
+# ApplicationController #
+#########################
+  
+   
+_ficheAppli:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation      
+
+_listeAppli:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation 
+    
+_pdf:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation     
+    
+_envoyerMail:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation 
+
+_creerAppli:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation  
+
+_rechercheAppli:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation          
+
+_mesAppli:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation
+
+_nouvelEditeur:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation  
+              
+_modifierAppli:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation
+
+_supprimerAppli:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation
+    
+_rapportObsolescence:
+    resource: "@melonRefappBundle/Controller/ApplicationController.php"
+    type : annotation
+
+#####################
+# ServeurController #
+#####################
+
+_listeServeur:
+    resource: "@melonRefappBundle/Controller/ServeurController.php"
+    type : annotation      
+
+_creerServeur:
+    resource: "@melonRefappBundle/Controller/ServeurController.php"
+    type : annotation    
+    
+_rechercheServeur:
+    resource: "@melonRefappBundle/Controller/ServeurController.php"
+    type : annotation    
+    
+_modifierServeur:
+    resource: "@melonRefappBundle/Controller/ServeurController.php"
+    type : annotation    
+
+_supprimerServeur:
+    resource: "@melonRefappBundle/Controller/ServeurController.php"
+    type : annotation  
+
+_ficheServeur:
+    resource: "@melonRefappBundle/Controller/ServeurController.php"
+    type : annotation
+    
+############################
+# AdministrationController #
+############################ 
+ 
+_administration:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+       
+## Ajout ##        
+_ajoutResponsableDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation 
+     
+_ajoutServiceAppliDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+
+_ajoutEditeur:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation     
+    
+_ajoutTechnologie:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+        
+_ajoutDomaine:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation    
+    
+_ajoutDirection:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+    
+_ajoutOs:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ajoutServeurWeb:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ajoutSgbd:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ajoutLogiciel:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ajoutLangage:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ajoutCompetence:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+## list ## 
+
+_listResponsableDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation 
+      
+_listServiceAppliDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+
+_listEditeur:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation     
+    
+_listTechnologie:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+        
+_listDomaine:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation    
+    
+_listDirection:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+    
+_listOs:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_listServeurWeb:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_listSgbd:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_listLogiciel:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_listLangage:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation 
+
+_listCompetence:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation 
+        
+## modifier ##  
+ 
+_modifierResponsableDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+ 
+_modifierServiceAppliDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+
+_modifierEditeur:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation     
+    
+_modifierTechnologie:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+        
+_modifierDomaine:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation    
+    
+_modifierDirection:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+    
+_modifierOs:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_modifierServeurWeb:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_modifierSgbd:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_modifierLogiciel:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_modifierLangage:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+
+_modifierCompetence:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+## supprimer ##  
+ 
+_supprimerResponsableDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+ 
+_supprimerServiceAppliDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+
+_supprimerEditeur:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation     
+    
+_supprimerTechnologie:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+        
+_supprimerDomaine:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation    
+    
+_supprimerDirection:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+    
+_supprimerOs:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_supprimerServeurWeb:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_supprimerSgbd:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_supprimerLogiciel:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_supprimerLangage:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_supprimerCompetence:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation    
+    
+## fiche ##  
+ 
+_ficheResponsableDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+ 
+_ficheServiceAppliDsi:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+
+_ficheEditeur:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation     
+    
+_ficheTechnologie:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+        
+_ficheDomaine:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation    
+    
+_ficheDirection:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation  
+    
+_ficheOs:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ficheServeurWeb:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ficheSgbd:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ficheLogiciel:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+    
+_ficheLangage:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation
+
+_ficheCompetence:
+    resource: "@melonRefappBundle/Controller/AdministrationController.php"
+    type : annotation 
+           

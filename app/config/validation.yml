@@ -1,0 +1,4 @@
+melon\RefappBundle\Entity\Editeur:
+    properties:
+        nom:
+            - NotBlank ~            

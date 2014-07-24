@@ -1,0 +1,32 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+
+			<h2>Fiche de la compétence {{ competence.getNom }} </h2>
+			<div class="formAjoutObjet">
+				<div class="contAjoutObjet">
+				<p>{{"Nom : "}} {{ competence.getNom }}</p>
+				<p>{{"Niveau : "}} {{ competence.getNiveau }}</p>
+			<p>	{{"Description : "}} {{ competence.getDescription }}</p>
+						</div>
+			<div class="bouton">
+			<a href="{{ path('_administration') }}">
+				<input  type="submit" class="btn-primary" name="retour" value="Retour à la liste"/>
+			</a>
+			<a href="{{ path('_modifierCompetence', {'id': competence.id}) }}">
+				<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+			</a>
+		</div>
+		</div>
+		</div>	
+	{% endblock %}
+
+

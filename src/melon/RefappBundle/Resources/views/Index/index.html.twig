@@ -1,0 +1,77 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+{% block menu_deroulant %}
+		{{ parent() }}
+{% endblock %}
+
+{% block login %}
+{% endblock %}
+
+{% block contenu %}
+	<div id='corps' class='corpsIndex'>
+	<div class="dt_index">
+		<table class="tableIndex">
+		<thead>
+       </thead>
+			
+			{% for lettre in listeAlpha %}
+			<tr>
+					<td>
+						<div class="lettre"><a href="#" onclick="toggle_visibility('{{lettre}}');">{{ lettre }}</a>
+						</div>
+						<div class="cont" id="{{lettre}}"  style="display: none;"> 
+							{% for application in listeApplication %}
+    			 	{% set vide='' %} {# on initialise une chaine a vide#}
+    				{% set temp=application.getNom()| truncate(1, false,vide)|upper %}{#on prend le premier caractere du code#}
+    			 	{% if lettre==temp %}{# si l'appli a la premiere lettre du code qui commence par "lettre"#}
+    			 		<div>
+    			 			<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">  {{ application.getNom() }}</a>
+    			 		</div>
+	    			{% endif %}
+    			 {% endfor %} 
+    			 {% for serveur in listeServeur %}
+    			 	{% set vide='' %} {# on initialise une chaine a vide#}
+    				{%  set temp=serveur.getNom()| truncate(1, false,vide)|upper %}{#on prend le premier caractere du code#}
+    			 	{% if lettre==temp %}{# si le serveur a la premiere lettre du code qui commence par "lettre"#}
+    			 		<div>
+    			 			<a href="{{ path('_ficheServeur', { 'id': serveur.getId() }) }}">
+                					{{ serveur.getNom() }}
+                				</a>	              				           			
+    			 		</div>
+	    			{% endif %}
+    			 {% endfor %} 
+						</div>
+						
+					</td>
+			</tr>
+			{% endfor %}
+				
+		</table>
+		</div>
+	</div>
+
+
+
+{% endblock %}
+{% block footer %}
+	
+	<script type="text/javascript">
+<!--
+    function toggle_visibility(id) {
+       var e = document.getElementById(id);
+       if(e.style.display == 'block'){
+      	 e.setAttribute("style","width:40px;display:none;");
+       }
+       else{
+    	   var first = "A", last = "Z";
+    	   for(var i = first.charCodeAt(0); i <= last.charCodeAt(0); i++) {
+         	document.getElementById(eval("String.fromCharCode(" + i + ")")).setAttribute("style","display:none;");
+    	   }
+			e.setAttribute("style","width:750px;display:block;");
+	   		
+       }
+      }
+//-->
+</script>
+{% endblock %}
+

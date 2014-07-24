@@ -1,0 +1,31 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+
+			<h2>Fiche logiciel {{ logiciel.getNomComplet }}</h2>
+			<div class="formAjoutObjet">
+				<div class="contAjoutObjet">
+				<p>{{"Nom :"}} {{ logiciel.getNom }}</p>
+				<p>{{"Date de fin :"}} {{ logiciel.getDateFin|date('d/m/Y') }}</p>
+				<p>{{"Version :"}} {{ logiciel.getVersion }}</p>
+				<p>{{"Type de logiciel :"}} {{ logiciel.getTypeLogiciel }}</p>
+		</div>
+			<div class="bouton">
+			<a href="{{ path('_administration') }}">
+				<input  type="submit" class="btn-primary" name="retour" value="Retour à la liste"/>
+			</a>	
+			<a href="{{ path('_modifierLogiciel', {'id': logiciel.id}) }}">
+				<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+			</a>
+		</div>
+		</div>
+		</div>	
+	{% endblock %}

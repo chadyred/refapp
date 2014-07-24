@@ -1,0 +1,36 @@
+login:
+    pattern:   /login
+    defaults:  { _controller: melonRefappBundle:Security:login }
+      
+login_check:
+    pattern:   /login_check
+ 
+logout:
+    pattern:   /logout      
+
+melon_refapp:
+    resource: "@melonRefappBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+#ldapbundle:
+#    resource: "@LDAPAuthBundle/Resources/config/routing.yml"
+#    prefix:   /
+
+
+usuario_junta_nueva_pdf:
+    pattern:  /juntas/nueva/pdf
+    defaults: { _controller: melonRefappBundle:Application:rapportObsolescence, _format: pdf }
+    requirements:
+          _format: pdf    
+  
+    
+# Internal routing configuration to handle ESI
+# ****** WARNING ******
+# This route should be enabled with caution as it can open a security vulnerability
+# see http://symfony.com/blog/security-release-symfony-2-0-20-and-2-1-5-released for more information
+# ****** WARNING ******
+#_internal:
+#    resource: "@FrameworkBundle/Resources/config/routing/internal.xml"
+#    prefix:   /_internal
+
+    

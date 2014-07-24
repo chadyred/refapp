@@ -1,0 +1,33 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+
+			<h2>Fiche serveur Web {{ serveurWeb.getNomComplet }} </h2>
+			
+			<div class="formAjoutObjet">
+				<div class="contAjoutObjet">
+				<p>{{"Nom :"}} {{ serveurWeb.getNom }}</p>
+				<p>{{"Date de fin :"}} {{ serveurWeb.getDateFin|date('d/m/Y') }}</p>
+				<p>{{"Version :"}} {{ serveurWeb.getVersion }}</p>
+				</div>
+			<div class="bouton">
+				
+			<a href="{{ path('_administration') }}">
+				<input  type="submit" class="btn-primary" name="retour" value="Retour à la liste"/>
+			</a>
+			<a href="{{ path('_modifierServeurWeb', {'id': serveurWeb.id}) }}">
+				<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+			</a>
+			</div>
+			</div>
+		</div>	
+	{% endblock %}
+

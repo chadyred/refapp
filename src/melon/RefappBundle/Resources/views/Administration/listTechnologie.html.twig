@@ -1,0 +1,63 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+		
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+	<div id='corps'>
+		<h2>Voici la liste de tout les Technologie(s)</h2></br>
+			<div id="dt_example">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="example">
+    			<thead>
+        		<tr>
+            		<th>nom</th>
+            		<th>Actions</th>
+        		</tr>
+    			</thead>
+   			 <tbody>
+    			 {% for technologie in list_Technologie %}
+                		<tr>	        			
+                			<td>	
+                				
+                					{{ technologie.getNom() }}
+                				              				           			
+                			</td>
+                			<td>	          
+                				<a id="lienEditer" href="{{ path('_modifierTechnologie', {'id': technologie.id}) }}">
+                					{{ "Editer" }}
+                				</a>
+                				<a id="lienSupprimer" href="{{ path('_supprimerTechnologie', {'id': technologie.id}) }}">
+                					{{ "Supprimer" }}
+                				</a>               				              				           			
+                			</td>                 			
+        				</tr>
+ 
+
+     			{% endfor %}       			
+        	</tbody>
+			</table>
+		</div>
+		<a href="{{ path('_administration') }}">
+			<input  type="submit" class="btn-primary" name="supprimer" value="Retour"/>
+		</a>		
+		<a href="{{ path('_ajoutTechnologie') }}">
+			<input  type="submit" class="btn-primary" name="modifier "value="Ajouter une technologie"/>
+		</a>
+
+		
+	</div>	
+	{% endblock %}
+	
+	{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$('#example').dataTable();
+					} );
+		</script>	
+	{% endblock %}
+

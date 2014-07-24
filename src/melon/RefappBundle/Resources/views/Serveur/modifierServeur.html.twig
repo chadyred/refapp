@@ -1,0 +1,126 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+	
+{% use 'form_div_layout.html.twig' with form_label as base_form_label %}
+
+{% block form_label %}
+    {{ block('base_form_label') }}
+
+    {% if required %}
+        <span class="required" title="Ce champ est obligatoire">*</span>
+    {% endif %}
+{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+			<h2>Modification d'un serveur</h2>
+ 
+				<div class="formCreerServeur">
+  					<form method="post" {{ form_enctype(form) }}>
+  						{# Les erreurs g�n�rales du formulaire. #}
+  						{{ form_errors(form) }}											
+					<div class="formInfo">
+  							{{ form_label(form.nom, "Nom* :") }}
+  							{{ form_errors(form.nom) }}
+  							{{ form_widget(form.nom) }}</br>
+							
+  							{{ form_label(form.ip, "Ip* :") }}
+  							{{ form_errors(form.ip) }}
+  							{{ form_widget(form.ip) }}</br> 
+							
+  							{{ form_label(form.hostname, "Hostname :") }}
+  							{{ form_errors(form.hostname) }}
+  							{{ form_widget(form.hostname) }}</br> 
+							
+							{{ form_label(form.typeServeur, "Type :") }}
+  							{{ form_errors(form.typeServeur) }}
+  							{{ form_widget(form.typeServeur) }}</br> 
+	
+  							{{ form_label(form.dateCreation, "Date de création :") }}
+  							{{ form_errors(form.dateCreation) }}
+  							{{ form_widget(form.dateCreation) }}
+  						
+  							{{ form_label(form.emplacement, "Emplacement :") }}
+  							{{ form_errors(form.emplacement) }}
+  							{{ form_widget(form.emplacement) }}
+
+							{{ form_rest(form) }}
+		
+						<h5>* : champ(s) obligatoire(s)</h5>
+					</div>
+					<div class="validation">
+						<a href="{{ path('_rechercheServeur') }}">
+							<input  type="submit" class="btn-primary" name="annuler" value="Annuler"/>
+						</a>
+						<input type="submit" class="btn-primary" value="Enregistrer les modifications"/>
+    				 </div>
+    				 	
+  					</form>
+			</div>
+		</div>
+			
+	{% endblock %}
+{% block javascript %}
+		{{ parent() }}
+			<script type="text/javascript" charset="utf-8">
+		$(function(){
+$(".InfoBulle").tipTip();
+});	
+			
+    imgout=new Image(9,9);
+    imgin=new Image(9,9);
+
+    /////////////////BEGIN USER EDITABLE///////////////////////////////
+    	imgout.src="{{ asset('bundles/melonrefapp/images/expand.gif') }}";
+    	imgin.src=src="{{ asset('bundles/melonrefapp/images/collapse.gif') }}";
+    ///////////////END USER EDITABLE///////////////////////////////////
+
+    //this switches expand collapse icons
+    function filter(imagename,objectsrc){
+    	if (document.images){
+    		document.images[imagename].src=eval(objectsrc+".src");
+    	}
+    }
+
+    //show OR hide funtion depends on if element is shown or hidden
+    function hidden_show(id) { 
+    	
+    	if (document.getElementById) { // DOM3 = IE5, NS6
+    		if (document.getElementById(id).style.display == "none"){
+    			document.getElementById(id).style.display = 'inline-block';
+    			filter(("img"+id),'imgin');			
+    		} else {
+    			filter(("img"+id),'imgout');
+    			document.getElementById(id).style.display = 'none';			
+    		}	
+    	} else { 
+    		if (document.layers) {	
+    			if (document.id.display == "none"){
+    				document.id.display = 'inline-block';
+    				filter(("img"+id),'imgin');
+    			} else {
+    				filter(("img"+id),'imgout');	
+    				document.id.display = 'none';
+    			}
+    		} else {
+    			if (document.all.id.style.visibility == "none"){
+    				document.all.id.style.display = 'inline-block';
+    			} else {
+    				filter(("img"+id),'imgout');
+    				document.all.id.style.display = 'none';
+    			}
+    		}
+    	}
+    }
+
+
+    
+</script>
+	{% endblock %}
+	

@@ -1,0 +1,231 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+	
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+	<div id='corps'>
+		<h2>Rechercher une application</h2>		
+					<form id="RechGeneral" class="formRechercheAppli" method="post" {{ form_enctype(form) }}>					
+					<div class="container1">
+					<h4><a href="#RechGeneral" onclick="hidden_show('RechGeneral');">{{ "Filtrer votre recherche"}}</a></h4>
+  					{# Les erreurs g�n�rales du formulaire. #}
+  					{{ form_errors(form) }}	
+  					<div class="Recherche">	
+						<div class="rechGeneral">
+  							{{ form_label(form.nom, "Nom :") }}
+  							{{ form_errors(form.nom) }}
+  							{{ form_widget(form.nom) }}
+							
+  							{{ form_label(form.code, "code :") }}
+  							{{ form_errors(form.code) }}
+  							{{ form_widget(form.code) }} 
+
+  							{{ form_label(form.domaine, "Domaine :") }}
+  							{{ form_errors(form.domaine) }}
+  							{{ form_widget(form.domaine) }}
+  							
+  							{{ form_label(form.editeur, "Editeur :") }}
+  							{{ form_errors(form.editeur) }}
+  							{{ form_widget(form.editeur) }}
+  							</div>
+  							<div class="rechEntities">
+  							{{ form_label(form.direction, "Direction :") }}
+  							{{ form_errors(form.direction) }}
+  							{{ form_widget(form.direction) }}
+  							
+  							{{ form_label(form.responsableDsi, "Responsable :") }}
+  							{{ form_errors(form.responsableDsi) }}
+  							{{ form_widget(form.responsableDsi) }} 
+  							
+  							{{ form_label(form.serviceAppliDsi, "Service :") }}
+  							{{ form_errors(form.serviceAppliDsi) }}
+  							{{ form_widget(form.serviceAppliDsi) }} 
+  							
+  							{{ form_label(form.technologie, "Technologie :") }}
+  							{{ form_errors(form.technologie) }}
+  							{{ form_widget(form.technologie) }}
+  							
+  							{{ form_label(form.competence, "Competence :") }}
+  							{{ form_errors(form.competence) }}
+  							{{ form_widget(form.competence) }}
+  						</div>	
+  						<div class="rechComposant">
+  							{{ form_label(form.os, "Os :") }}
+  							{{ form_errors(form.os) }}
+  							{{ form_widget(form.os) }}
+  							
+  							{{ form_label(form.serveurWeb, "ServeurWeb :") }}
+  							{{ form_errors(form.serveurWeb) }}
+  							{{ form_widget(form.serveurWeb) }}
+  							
+  							{{ form_label(form.sgbd, "Sgbd :") }}
+  							{{ form_errors(form.sgbd) }}
+  							{{ form_widget(form.sgbd) }}
+  							
+  							{{ form_label(form.logiciel, "Logiciel :") }}
+  							{{ form_errors(form.logiciel) }}
+  							{{ form_widget(form.logiciel) }}
+  							
+  							{{ form_label(form.langage, "Langage :") }}
+  							{{ form_errors(form.langage) }}
+  							{{ form_widget(form.langage) }}  
+						</div>
+							{{ form_rest(form) }}
+					
+						<div class="divbtnRechercher">
+							<INPUT TYPE="button" VALUE="Rétablir les valeurs par défaut" onClick="this.form.reset();">
+							<input type="submit" class="btn-primary" value="Rechercher"/>
+						</div>
+  					</div>
+  					</div>
+  					</form>
+  		  			
+			<div id="dt_example">
+			<table cellpadding="0" cellspacing="0" border="0" class="display" id="rechercheAppli">
+    			<thead>
+        		<tr>
+            		<th>Code</th>
+            		<th>Nom</th>
+            		<th>Date mise en oeuvre</th>
+            		<th>Mis à jour le</th>
+            		<th>Compatibilité</th>
+            		<th>Famille</th>
+            		<th>Traitement des données</th>
+        		</tr>
+    			</thead>
+   			 <tbody>
+    			 {% for application in list_Application %}
+                		<tr>	        			
+                			<td>	
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">
+                					{{ application.getCode() }}
+                				</a>	              				           			
+                			</td>
+                			<td>   
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            				
+                					{{ application.getNom() }}
+                				</a>	               				
+                			</td>
+                			<td>  
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            			
+                					{{ application.getDateMiseEnOeuvre()|date('d/m/Y') }}   
+                				</a>	             			
+                			</td>
+                			<td>  
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            			
+                					{{ application.getDateDerniereMiseAJour()|date('d/m/Y') }}   
+                				</a>	             			
+                			</td>
+                			<td>  
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            			
+                					{{ application.getCompatibilite() }}   
+                				</a>	             			
+                			</td>
+                			<td>  
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            			
+                					{{ application.getFamille() }}   
+                				</a>	             			
+                			</td>
+                			<td>  
+                				<a href="{{ path('_ficheAppli', { 'id': application.getId() }) }}">            			
+                					{{ application.getTraitementDonnee() }}   
+                				</a>	             			
+                			</td>
+        				</tr>
+
+     			{% endfor %}       			
+        	</tbody>
+        	<tfoot>    	
+        		<tr class="tfootLine">
+            		<th>Code</th>
+            		<th>Nom</th>
+            		<th>Date mise en oeuvre</th>
+            		<th>Mis à jour le</th>
+            		<th>Compatibilité</th>
+            		<th>Famille</th>
+            		<th>Traitement des données</th>
+        		</tr>
+				<tr>
+					<th><input type="text" name="search_code" value="Search code" class="search_init" /></th>
+					<th><input type="text" name="search_nom" value="Search nom" class="search_init" /></th>
+					<th><input type="text" name="search_date_mise_en oeuvre" value="Search date de mise en oeuvre" class="search_init" /></th>
+					<th><input type="text" name="search_der_mise_a_jour" value="Search date Maj" class="search_init" /></th>
+					<th><input type="text" name="search_compatibilite" value="Search compatibilit�" class="search_init" /></th>
+					<th><input type="text" name="search_famille" value="Search famille" class="search_init" /></th>
+					<th><input type="text" name="search_traitement_de_donnee" value="Search traitement de donn�e" class="search_init" /></th>
+				</tr>
+			</tfoot>
+			</table>
+		</div>
+
+		
+	</div>
+	
+	{% endblock %}
+	
+	{% block javascript %}
+		{{ parent() }}
+		<script type="text/javascript" charset="utf-8">
+		var asInitVals = new Array();
+		 
+		$(document).ready(function() {
+		    var oTable = $('#rechercheAppli').dataTable( {
+		        "oLanguage": {
+		            "sSearch": "Search all columns:"
+		        },
+		   	 	"sScrollX": "100%",
+	     		"sScrollXInner": "100%",
+	     		"bScrollCollapse": true 
+		    } );
+		     
+		    $("tfoot input").keyup( function () {
+		        /* Filter on the column (the index) of this element */
+		        oTable.fnFilter( this.value, $("tfoot input").index(this) );
+		    } );
+		     
+		     
+		     
+		    /*
+		     * Support functions to provide a little bit of 'user friendlyness' to the textboxes in 
+		     * the footer
+		     */
+		    $("tfoot input").each( function (i) {
+		        asInitVals[i] = this.value;
+		    } );
+		     
+		    $("tfoot input").focus( function () {
+		        if ( this.className == "search_init" )
+		        {
+		            this.className = "";
+		            this.value = "";
+		        }
+		    } );
+		     
+		    $("tfoot input").blur( function (i) {
+		        if ( this.value == "" )
+		        {
+		            this.className = "search_init";
+		            this.value = asInitVals[$("tfoot input").index(this)];
+		        }
+		    } );
+		} );
+
+		function hidden_show(id) {
+		       var e = document.getElementById(id);
+		       if(e.style.display == 'inline-block'){
+		      	 e.setAttribute("style","display:none;");
+		       }
+		       else{
+		    	
+					e.setAttribute("style","display:inline-block;");
+			   		
+		       }
+		      }
+		</script>	
+	{% endblock %}
+	

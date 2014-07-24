@@ -1,0 +1,91 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+   # - { resource: validation.yml }
+
+framework:
+    #esi:             ~
+    translator: ~
+    secret:          "%secret%"
+    router:
+        resource: "%kernel.root_dir%/config/routing.yml"
+        strict_requirements: "%kernel.debug%"
+    form:            true
+    csrf_protection: true
+    validation:      { enable_annotations: true }
+    templating:      { engines: ['twig', 'php'] } #assets_version: SomeVersionScheme
+    default_locale:  "%locale%"
+    trust_proxy_headers: false # Deprecated in 2.0; will be removed in 2.3 (used trusted_proxies instead)
+    trusted_proxies: ~
+    session:         ~
+
+# Twig Configuration
+twig:
+    debug:            "%kernel.debug%"
+    strict_variables: "%kernel.debug%"
+    
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: true
+    #bundles:        [ ]
+    java: C:\Program Files (x86)\Java\jre6\bin\java.exe
+    filters:
+        cssrewrite: ~
+        yui_js:
+            jar: _kernel.root_dir_/Resources/java/yuicompressor.jar
+        yui_css:
+            jar: _kernel.root_dir_/Resources/java/yuicompressor.jar
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver:   "%database_driver%"
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+        mapping_types:
+            enum: string
+
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+        
+# pdf bundle
+ps_pdf:
+    nodes_file: ~
+    fonts_file: ~
+    complex_attributes_file: ~
+    colors_file: ~
+    use_cache_in_stylesheet: ~
+    cache:
+      type: ~
+      options: ~
+    markdown_stylesheet_filepath: ~
+    markdown_document_template_filepath: ~
+    document_parser_type: ~
+
+services:
+    twig.extension.text:
+       class: Twig_Extensions_Extension_Text
+       tags:
+           - { name: twig.extension }
+  
+    twig.extension.intl:
+       class: Twig_Extensions_Extension_Intl
+       tags:
+           - { name: twig.extension }
+  
+    debug.twig.extension:
+        class: Twig_Extensions_Extension_Debug
+        tags: [{ name: 'twig.extension' }]
+        
+# Swiftmailer Configuration
+swiftmailer:
+  transport: smtp
+  host: smtp.cg38.local
+#  username:   "%mailer_user%"
+#  password:   "%mailer_password%"

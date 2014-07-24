@@ -1,0 +1,33 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+
+			<h2>Fiche editeur {{ editeur.getNom }} </h2>
+			<div class="formAjoutObjet">
+				<div class="contAjoutObjet">
+				<p>{{"Nom :"}} {{ editeur.getNom }}</p>
+				<p>{{"Numero de telephone :"}} {{ editeur.getNumtel }}</p>
+				<p>{{"Adresse :"}} {{ editeur.getNumero }}{{" "}}{{ editeur.getRue }} <br/>{{ editeur.getCodepostal }}{{" "}}{{ editeur.getVille }}</p>
+				<p>{{"Mail :"}} {{ editeur.getMail }}</p>
+				<p>{{"Responsable technique :"}} {{ editeur.getResponsableTechnique }}</p>
+				<p>{{"Responsable d'application :"}} {{ editeur.getResponsableApplication }}</p>
+				<div class="bouton">
+			<a href="{{ path('_administration') }}">
+				<input  type="submit" class="btn-primary" name="retour" value="Retour à la liste"/>
+			</a>
+			<a href="{{ path('_modifierEditeur', {'id': editeur.id}) }}">
+				<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+			</a>
+			</div>
+			</div>
+		</div>	
+	{% endblock %}
+

@@ -1,0 +1,33 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+		<div id='corps'>
+			<h2>Fiche responsable Dsi </h2>
+			<div class="formAjoutObjet">
+				<div class="contAjoutObjet">
+				<p>{{"Nom :"}} {{ responsableDsi.getNom }}</p>
+				<p>{{"Prenom :"}} {{ responsableDsi.getPrenom }}</p>
+			<p>	{{"Matricule :"}} {{ responsableDsi.getUsername }}</p>
+			<p>	{{"Numero de téléphone :"}} {{ responsableDsi.getNumTel }}</p>
+			<p>	{{"Service :"}} {{ responsableDsi.serviceAppliDsi.getNom }}</p>
+			</div>
+			<div class="bouton">
+			
+			<a href="{{ path('_administration') }}">
+				<input  type="submit" class="btn-primary" name="retour" value="Retour à la liste"/>
+			</a>
+			<a href="{{ path('_modifierResponsableDsi', {'id': responsableDsi.id}) }}">
+				<input  type="submit" class="btn-primary" name="modifier "value="Modifier"/>
+			</a>
+		</div>
+		</div>
+		</div>	
+	{% endblock %}
+

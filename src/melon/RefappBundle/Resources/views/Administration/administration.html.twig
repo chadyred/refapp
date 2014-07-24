@@ -1,0 +1,719 @@
+{% extends 'melonRefappBundle::layout.html.twig' %}
+
+	{% block menu_deroulant %}
+		{{ parent() }}
+	{% endblock %}
+	
+	{% block login %}
+	{% endblock %}
+
+	{% block contenu %}
+	<!-- Corps -->
+		<div id='corps' class="corpsSite">
+			<h2>Administration</h2>
+			<div class="formObsolescence">
+  					<form method="post" {{ form_enctype(form) }}>
+  						{# Les erreurs g�n�rales du formulaire. #}
+						{{ form_errors(form) }}
+						<div class="jauge"><img src="{{asset('bundles/melonrefapp/images/jauge.png')}}" alt="jauge"/></div>
+						<div class="global">
+						<div class="double">  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.nbMois1, "1ère alerte :") }}
+ 
+  							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.nbMois1) }} mois
+  							
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							
+						</div>
+						<div class="double">  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.nbMois2, "2ème alerte :") }}
+   							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.nbMois2) }} mois
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  							
+						</div>
+						<div class="double">  
+							{# G�n�ration du label. #}
+  							{{ form_label(form.nbMois3, "3ème alerte :") }}
+   							{# G�n�ration de l'input. #}
+  							{{ form_widget(form.nbMois3) }} mois
+  							{# Affichage des erreurs pour ce champ pr�cis. #}
+  					
+						</div>
+						{{ form_errors(form.nbMois3) }}
+						{{ form_errors(form.nbMois2) }}
+						{{ form_errors(form.nbMois1) }}
+						</div>
+						{{ form_rest(form) }}
+					 	<div class="input"><input type="submit" class="btn-primary" value="Enregistrer" id="boutonEnregistrerObsolescence"/>
+					 	</div>
+  					</form>
+  		</div>
+			<div class="general">
+				<p>Bienvenue sur la partie administration de RefApp38. Ici, vous pouvez créer / modifier / supprimer l'ensemble des composants utilisés par le référentiel : </p>
+				<h3>General</h3>
+			</div>
+				
+	<!-- Table g�n�rale -->	
+	
+		<div id="tabs">		
+			<ul>
+				<li><a href="#tabs-1">Direction</a></li>
+				<li><a href="#tabs-2">Domaine</a></li>
+				<li><a href="#tabs-3">Responsable</a></li>
+				<li><a href="#tabs-4">Service Applicatif</a></li>
+				<li><a href="#tabs-5">Technologie</a></li>
+				<li><a href="#tabs-6">Editeur</a></li>
+				<li><a href="#tabs-7">Compétence</a></li>
+			</ul>
+			<div id="tabs-1">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example1">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Correspondant informatique</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for direction in list_Direction %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheDirection', { 'id': direction.getId() }) }}">	                				
+                					{{ direction.getNom() }}
+                				</a>           				              				           			
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheDirection', { 'id': direction.getId() }) }}">	                				
+                					{{ direction.getCorrespondantInformatique() }}
+                				 </a>          				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierDirection', {'id': direction.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerDirection', {'id': direction.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>                   			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>				
+				<a href="{{ path('_ajoutDirection') }}">
+					<input  type="submit" class="btn-primary" name="ajouterDir" value="Ajouter une direction"/>
+				</a>			
+			</div>			
+			<div id="tabs-2">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example2">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for domaine in list_Domaine %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheDomaine', { 'id': domaine.getId() }) }}">	                				
+                					{{ domaine.getNom() }}
+                				</a>		           				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierDomaine', {'id': domaine.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerDomaine', {'id': domaine.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutDomaine') }}">
+					<input  type="submit" class="btn-primary" name="ajouterDom" value="Ajouter un domaine"/>
+				</a>
+			</div>
+			<div id="tabs-3">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example3">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Prenom</th>
+            			<th>Identifiant</th>
+            			<th>Numero de tèl</th>
+            			<th>Service</th>
+            			<th>Actions</th>
+        				</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for responsableDsi in list_ResponsableDsi %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheResponsableDsi', { 'id': responsableDsi.getId() }) }}">	                				
+                					{{ responsableDsi.getNom() }}
+                				</a>	           				              				           			
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheResponsableDsi', { 'id': responsableDsi.getId() }) }}">	                				
+                					{{ responsableDsi.getPrenom() }} 
+                				</a>          				              				           			
+                			</td> 
+                			<td>
+                				<a href="{{ path('_ficheResponsableDsi', { 'id': responsableDsi.getId() }) }}">	                				
+                					{{ responsableDsi.getUsername() }}
+                				</a>           				              				           			
+                			</td> 
+                			 <td>	
+                				 <a href="{{ path('_ficheResponsableDsi', { 'id': responsableDsi.getId() }) }}">                				
+                					{{ responsableDsi.getNumtel() }}
+                				</a>	           				              				           			
+                			</td>  
+                			<td>
+                				<a href="{{ path('_ficheResponsableDsi', { 'id': responsableDsi.getId() }) }}">	                				
+                					{{ responsableDsi.serviceAppliDsi.getNom() }}
+                				</a>	           				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierResponsableDsi', {'id': responsableDsi.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerResponsableDsi', {'id': responsableDsi.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutResponsableDsi') }}">
+					<input  type="submit" class="btn-primary" name="ajouterRes" value="Ajouter un responsable"/>
+				</a>
+			</div>
+			<div id="tabs-4">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example4">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for serviceAppliDsi in list_ServiceAppliDsi %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheServiceAppliDsi', { 'id': serviceAppliDsi.getId() }) }}">	  	                				
+                					{{ serviceAppliDsi.getNom() }} 
+                				</a>          				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierServiceAppliDsi', {'id': serviceAppliDsi.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerDirection', {'id': serviceAppliDsi.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutServiceAppliDsi') }}">
+					<input  type="submit" class="btn-primary" name="ajouterSer" value="Ajouter un service"/>
+				</a>
+			</div>
+			<div id="tabs-5">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example5">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for technologie in list_Technologie %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheTechnologie', { 'id': technologie.getId() }) }}">	 	                				
+                					{{ technologie.getNom() }} 
+                				</a>	          				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierTechnologie', {'id': technologie.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerTechnologie', {'id': technologie.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutTechnologie') }}">
+					<input  type="submit" class="btn-primary" name="ajouterTec" value="Ajouter une technologie"/>
+				</a>
+			</div>
+			<div id="tabs-6">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example6">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Numero de tel</th>
+            			<th>Adresse</th>
+            			<th>Mail</th>
+            			<th>Responsable technique</th>
+            			<th>Responsable d'application</th>
+            			<th>Actions</th>
+        				</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for editeur in list_Editeur %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheEditeur', { 'id': editeur.getId() }) }}">	 		                				
+                					{{ editeur.getNom() }}
+                				</a>	               				           				              				           			
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheEditeur', { 'id': editeur.getId() }) }}">	 		                				
+                					{{ editeur.getNumtel() }}
+                				</a>           				              				           			
+                			</td> 
+                			<td>
+                				<a href="{{ path('_ficheEditeur', { 'id': editeur.getId() }) }}">	 		                				
+                					{{ editeur.getNumero()~" "~editeur.getRue()~" "~editeur.getCodepostal()~" "~editeur.getVille() }}
+                				</a>           				              				           			
+                			</td> 
+                			<td>
+                				<a href="{{ path('_ficheEditeur', { 'id': editeur.getId() }) }}">	 		                				
+                					{{ editeur.getMail() }}
+                				</a>           				              				           			
+                			</td> 
+                			<td>
+                				<a href="{{ path('_ficheEditeur', { 'id': editeur.getId() }) }}">	 		                				
+                					{{ editeur.getResponsableTechnique() }}
+                				</a>           				              				           			
+                			</td> 
+                			<td>
+                				<a href="{{ path('_ficheEditeur', { 'id': editeur.getId() }) }}">	 		                				
+                					{{ editeur.getResponsableApplication() }}
+                				</a>           				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierEditeur', {'id': editeur.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerEditeur', {'id': editeur.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutEditeur') }}">
+					<input  type="submit" class="btn-primary" name="ajouterEdi" value="Ajouter un editeur"/>
+				</a>
+			</div>
+			<div id="tabs-7">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example7">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Niveau</th>
+            			<th>Compétence</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for competence in list_Competence %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheCompetence', { 'id': competence.getId() }) }}">	 		                				
+                					{{ competence.getNom() }}
+                				</a>	               				           				              				           			
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheCompetence', { 'id': competence.getId() }) }}">	 		                				
+                					{{ competence.getNiveau() }}
+                				</a>           				              				           			
+                			</td> 
+                			<td>
+                				<a href="{{ path('_ficheCompetence', { 'id': competence.getId() }) }}">	 		                				
+                					{{ competence.getDescription() }}
+                				</a>           				              				           			
+                			</td> 
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierCompetence', {'id': competence.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerCompetence', {'id': competence.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutCompetence') }}">
+					<input  type="submit" class="btn-primary" name="ajouterEdi" value="Ajouter une competence"/>
+				</a>
+			</div>
+	
+		</div>
+		
+				
+	<!-- Table Composant -->	
+	
+	<div class="TitleComposant"><h3>Composants</h3></div>
+		<div id="tabs1">		
+			<ul>
+				<li><a href="#tabs-8">Os</a></li>
+				<li><a href="#tabs-9">Serveur Web</a></li>
+				<li><a href="#tabs-10">Sgbd</a></li>
+				<li><a href="#tabs-11">Logiciel</a></li>
+				<li><a href="#tabs-12">Langage</a></li>
+			</ul>
+			<div id="tabs-8">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example7">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Version</th>
+            			<th>Date de fin</th>		
+            			<th>Actions</th>
+        			</tr>
+    			
+   			 </thead>
+   			 <tbody>
+    				 {% for os in list_Os %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheOs', { 'id': os.getId() }) }}">	 	                				
+                					{{ os.getNom() }}
+                				</a>	           				              				           			
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheOs', { 'id': os.getId() }) }}">	 	                				
+                					{{ os.getVersion() }}
+                				</a>	           				              				           			
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheOs', { 'id': os.getId() }) }}">	 	                				
+                					{{ os.getDateFin()|date('d/m/Y') }}
+                				</a>	           				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierOs', {'id': os.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerOs', {'id': os.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        	</tbody>
+				</table>
+				<a href="{{ path('_ajoutOs') }}">
+					<input  type="submit" class="btn-primary" name="ajouterOs" value="Ajouter un Os"/>
+				</a>
+			</div>			
+			<div id="tabs-9">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example8">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Version</th>
+            			<th>Date de fin</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for serveurWeb in list_ServeurWeb %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheServeurWeb', { 'id': serveurWeb.getId() }) }}">	 	                				
+                					{{ serveurWeb.getNom() }}
+                				</a>           				              				           			
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheServeurWeb', { 'id': serveurWeb.getId() }) }}">	 	                				
+                					{{ serveurWeb.getVersion() }}
+                				</a>           				              				           			
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheServeurWeb', { 'id': serveurWeb.getId() }) }}">	 	                				
+                					{{ serveurWeb.getDateFin()|date('d/m/Y') }}
+                				</a>           				              				           			
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierServeurWeb', {'id': serveurWeb.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerServeurWeb', {'id': serveurWeb.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutServeurWeb') }}">
+					<input  type="submit" class="btn-primary" name="ajouterSer" value="Ajouter un serveur web"/>
+				</a>
+			</div>
+			<div id="tabs-10">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example9">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Version</th>
+            			<th>Date de fin</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for sgbd in list_Sgbd %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheSgbd', { 'id': sgbd.getId() }) }}">	 	                				
+                					{{ sgbd.getNom() }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheSgbd', { 'id': sgbd.getId() }) }}">	 	                				
+                					{{ sgbd.getVersion() }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheSgbd', { 'id': sgbd.getId() }) }}">	 	                				
+                					{{ sgbd.getDateFin()|date('d/m/Y') }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierSgbd', {'id': sgbd.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerSgbd', {'id': sgbd.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>             			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutSgbd') }}">
+					<input  type="submit" class="btn-primary" name="ajouterSgb" value="Ajouter un sgbd"/>
+				</a>
+			</div>
+			<div id="tabs-11">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example10">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Version</th>
+            			<th>Date de fin</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for logiciel in list_Logiciel %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheLogiciel', { 'id': logiciel.getId() }) }}">	 	                				
+                					{{ logiciel.getNom() }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheLogiciel', { 'id': logiciel.getId() }) }}">	 	                				
+                					{{ logiciel.getVersion() }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheLogiciel', { 'id': logiciel.getId() }) }}">	 	                				
+                					{{ logiciel.getDateFin()|date('d/m/Y') }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierLogiciel', {'id': logiciel.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerLogiciel', {'id': logiciel.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutLogiciel') }}">
+					<input  type="submit" class="btn-primary" name="ajouterLog" value="Ajouter un logiciel"/>
+				</a>
+			</div>
+			<div id="tabs-12">
+				<table cellpadding="0" cellspacing="0" border="0" class="display" id="example11">
+    				<thead>
+        			<tr>
+            			<th>Nom</th>
+            			<th>Version</th>
+            			<th>Date de fin</th>
+            			<th>Actions</th>
+        			</tr>
+    				</thead>
+   			 	<tbody>
+    				 {% for langage in list_Langage %}
+                		<tr>	        			
+                			<td>
+                				<a href="{{ path('_ficheLangage', { 'id': langage.getId() }) }}">	 	                				
+                					{{ langage.getNom() }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheLangage', { 'id': langage.getId() }) }}">	 	                				
+                					{{ langage.getVersion() }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<a href="{{ path('_ficheLangage', { 'id': langage.getId() }) }}">	 	                				
+                					{{ langage.getDatefin()|date('d/m/Y') }}           				              				           			
+                				</a>
+                			</td>
+                			<td>
+                				<div id="AdmiEditer" >	          
+                					<a class="lienEditer" href="{{ path('_modifierLangage', {'id': langage.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/modif.png') }}" alt="editer" height="12" width="12" />  
+                						{{ "Editer" }}
+                					</a>
+                				</div>
+                				<div id="AdmiSupprimer">
+                					<a class="lienSupprimer" href="{{ path('_supprimerLangage', {'id': langage.id}) }}">
+                						<img src="{{ asset('bundles/melonrefapp/images/supp.png') }}" alt="supprimer" height="12" width="12" />
+                						{{ "Supprimer" }}
+                					</a>
+                				</div>
+                			</td>               			
+        				</tr>
+     				{% endfor %}       			
+        		</tbody>
+				</table>
+				<a href="{{ path('_ajoutLangage') }}">
+					<input  type="submit" class="btn-primary" name="ajouterLan" value="Ajouter un langage"/>
+				</a>
+			</div>
+		</div>
+		
+		
+
+	{% endblock %}
+	
+	{% block javascript %} 
+		{{ parent() }}
+				<script type="text/javascript" charset="utf-8">
+					$(document).ready(function() {
+						$("#tabs").tabs( {
+							"show": function(event, ui) {
+								var table = $.fn.dataTable.fnTables(true);
+								if ( table.length > 0 ) {
+									$(table).dataTable().fnAdjustColumnSizing();
+								}
+								}
+							} );
+
+						$("#tabs1").tabs( {
+							"show": function(event, ui) {
+								var table = $.fn.dataTable.fnTables(true);
+								if ( table.length > 0 ) {
+									$(table).dataTable().fnAdjustColumnSizing();
+								}
+								}
+							} );
+				
+					$('table.display').dataTable( {
+						"aLengthMenu": [[25,50,100, -1], [25, 50,100, "Tous"]],
+					    "iDisplayLength": 50,
+						"sScrollY": "400px",
+							"bScrollCollapse": true,
+						"bPaginate": true,
+						"bJQueryUI": true,
+						"aoColumnDefs": [
+							{ "sWidth": "10%", "aTargets": [ -1 ] }
+						]
+					} );
+				} );
+				</script>
+																	
+	{% endblock %}	
+
